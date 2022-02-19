@@ -20,10 +20,6 @@
 #include "config.h"
 #endif
 
-#ifdef WIN32
-#include "winconfig.h"
-#endif
-
 #ifdef ENABLE_LOGGING
     #include <syslog.h>
 #endif

@@ -20,8 +20,6 @@
 #include <string>
 #include <cstring>
 
-#include "types.h"
-
 namespace utils
 {
 
@@ -29,13 +27,12 @@ using namespace std;
 
 
 Thread::Thread(ThreadFunction pfnThreadFunction, void* pInstance)
-: m_Thread(0)
-#ifndef WIN32
-, m_Key(0)
+#ifdef WIN32
+: m_ThreadId(0),
 #else
-, m_ThreadId(0)
+:
 #endif
-, m_pfnThreadFunction(pfnThreadFunction)
+  m_pfnThreadFunction(pfnThreadFunction)
 , m_InstancePtrs()
 {
 #ifndef WIN32

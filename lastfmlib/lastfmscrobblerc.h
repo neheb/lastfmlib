@@ -23,6 +23,7 @@
 #ifndef LAST_FM_SCROBBLERC_H
 #define LAST_FM_SCROBBLERC_H
 
+#include <stdint.h>
 #include <time.h>
 #include <wchar.h>
 
@@ -31,7 +32,6 @@ extern "C"
 {
 #endif
 
-#include "utils/types.h"
 #include "lastfmtypes.h"
 
 struct AVFormatContext;

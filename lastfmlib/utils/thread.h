@@ -53,8 +53,8 @@ private:
 #endif
 
 #ifndef WIN32
-    pthread_t           m_Thread;
-    pthread_key_t       m_Key;
+    pthread_t           m_Thread{0};
+    pthread_key_t       m_Key{0};
 #else
     HANDLE              m_Thread;
     DWORD               m_ThreadId;

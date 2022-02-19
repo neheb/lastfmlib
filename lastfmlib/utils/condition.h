@@ -23,7 +23,7 @@
 #include <Windows.h>
 #endif
 
-#include "types.h"
+#include <cstdint>
 
 namespace utils
 {

@@ -15,7 +15,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "urlclient.h"
-#include "utils/numericoperations.h"
 
 #include <curl/curl.h>
 #include <assert.h>
@@ -44,7 +43,7 @@ void UrlClient::setProxy(const std::string& server, uint32_t port, const std::st
 		return;
 	}
 	
-	m_ProxyServer 	= server + ':' + NumericOperations::toString(port);
+	m_ProxyServer 	= server + ':' + std::to_string(port);
 	
 	if (!username.empty() && !password.empty())
 	{
