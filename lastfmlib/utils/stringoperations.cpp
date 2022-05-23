@@ -42,7 +42,7 @@ string urlEncode(const string& aString)
     stringstream result;
 
     for (char i : aString) {
-        int curChar = static_cast<int>(static_cast<unsigned char>(i));
+        auto curChar = static_cast<int>(static_cast<unsigned char>(i));
         if ((curChar >= 48 && curChar <= 57) || (curChar >= 65 && curChar <= 90) || (curChar >= 97 && curChar <= 122) || i == '-' || i == '_' || i == '.' || i == '!' || i == '~' || i == '*' || i == '\'' || i == '(' || i == ')') {
             result << i;
         } else if (i == ' ') {
