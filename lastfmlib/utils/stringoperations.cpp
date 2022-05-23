@@ -72,7 +72,7 @@ vector<string> tokenize(const string& str, const string& delimiter)
 
 void wideCharToUtf8(const wstring& wideString, string& utf8String)
 {
-    size_t stringLength = wcstombs(NULL, wideString.c_str(), 0);
+    size_t stringLength = wcstombs(nullptr, wideString.c_str(), 0);
     utf8String.resize(stringLength + 1);
 
     size_t len = wcstombs(&utf8String[0], wideString.c_str(), stringLength + 1);
@@ -85,7 +85,7 @@ void wideCharToUtf8(const wstring& wideString, string& utf8String)
 
 void utf8ToWideChar(const string& utf8String, wstring& wideString)
 {
-    size_t stringLength = mbstowcs(NULL, utf8String.c_str(), 0);
+    size_t stringLength = mbstowcs(nullptr, utf8String.c_str(), 0);
     wideString.resize(stringLength + 1);
 
     size_t len = mbstowcs(&wideString[0], utf8String.c_str(), stringLength + 1);
