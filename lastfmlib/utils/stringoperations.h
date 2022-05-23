@@ -42,6 +42,6 @@ inline std::string getPostData(T numeric)
     ss << numeric;
     return ss.str();
 }
-}
+} // namespace StringOperations
 
 #endif

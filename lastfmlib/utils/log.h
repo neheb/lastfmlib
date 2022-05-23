@@ -84,7 +84,7 @@ template <typename T1, typename T2, typename T3, typename T4, typename T5, typen
 void debug(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5, const T6& t6);
 template <typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7>
 void debug(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5, const T6& t6, const T7& t7);
-}
+} // namespace Log
 
 #include "log.cpp"
 
