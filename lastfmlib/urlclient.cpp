@@ -16,7 +16,7 @@
 
 #include "urlclient.h"
 
-#include <assert.h>
+#include <cassert>
 #include <curl/curl.h>
 #include <stdexcept>
 

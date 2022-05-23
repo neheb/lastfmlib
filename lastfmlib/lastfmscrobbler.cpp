@@ -20,8 +20,8 @@
 #include "utils/scopedlock.h"
 
 #include <algorithm>
+#include <csignal>
 #include <iostream>
-#include <signal.h>
 #include <stdexcept>
 
 using namespace std;

@@ -23,9 +23,9 @@
 #include <vector>
 
 #include <algorithm>
+#include <cwchar>
 #include <iostream>
 #include <stdexcept>
-#include <wchar.h>
 
 namespace StringOperations {
 void replace(std::string& aString, const std::string& toSearch, const std::string& toReplace);
