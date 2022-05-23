@@ -82,7 +82,7 @@ void LastFmClient::nowPlaying(const NowPlayingInfo& info)
 
     string response;
     try {
-        m_UrlClient.post(m_NowPlayingUrl, createNowPlayingString(info), response);
+        UrlClient::post(m_NowPlayingUrl, createNowPlayingString(info), response);
     } catch (logic_error& e) {
         throw ConnectionError(e.what());
     }
@@ -114,7 +114,7 @@ void LastFmClient::submit(const string& postData)
     string response;
 
     try {
-        m_UrlClient.post(m_SubmissionUrl, postData, response);
+        UrlClient::post(m_SubmissionUrl, postData, response);
     } catch (logic_error& e) {
         throw ConnectionError(e.what());
     }
