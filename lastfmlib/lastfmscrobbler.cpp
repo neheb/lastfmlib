@@ -297,7 +297,9 @@ void LastFmScrobbler::submitTrack(const SubmissionInfo& info)
         m_TrackPlayTime = 0;
         m_TrackResumeTime = m_CurrentTrackInfo.getTimeStarted();
         return;
-    } else {
+    }
+
+    {
         ScopedLock lock(m_TrackInfosMutex);
         m_BufferedTrackInfos.addInfo(info);
     }
