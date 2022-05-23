@@ -25,7 +25,7 @@ class SubmissionInfoCollection {
 public:
     void addInfo(const SubmissionInfo& info);
     void clear();
-    std::string getPostData() const;
+    [[nodiscard]] std::string getPostData() const;
 
 private:
     std::deque<SubmissionInfo> m_Infos;
