@@ -41,11 +41,11 @@ string urlEncode(const string& aString)
 {
     stringstream result;
 
-    for (size_t i = 0; i < aString.size(); ++i) {
-        int curChar = static_cast<int>(static_cast<unsigned char>(aString[i]));
-        if ((curChar >= 48 && curChar <= 57) || (curChar >= 65 && curChar <= 90) || (curChar >= 97 && curChar <= 122) || aString[i] == '-' || aString[i] == '_' || aString[i] == '.' || aString[i] == '!' || aString[i] == '~' || aString[i] == '*' || aString[i] == '\'' || aString[i] == '(' || aString[i] == ')') {
-            result << aString[i];
-        } else if (aString[i] == ' ') {
+    for (char i : aString) {
+        int curChar = static_cast<int>(static_cast<unsigned char>(i));
+        if ((curChar >= 48 && curChar <= 57) || (curChar >= 65 && curChar <= 90) || (curChar >= 97 && curChar <= 122) || i == '-' || i == '_' || i == '.' || i == '!' || i == '~' || i == '*' || i == '\'' || i == '(' || i == ')') {
+            result << i;
+        } else if (i == ' ') {
             result << '+';
         } else {
             result << '%' << hex << curChar;

@@ -138,8 +138,8 @@ string generateMD5String(const string& data)
     md5_finish(&state, digest);
 
     stringstream md5String;
-    for (int i = 0; i < 16; ++i) {
-        md5String << setw(2) << setfill('0') << hex << static_cast<int>(digest[i]);
+    for (unsigned char i : digest) {
+        md5String << setw(2) << setfill('0') << hex << static_cast<int>(i);
     }
 
     return md5String.str();
