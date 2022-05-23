@@ -33,7 +33,7 @@
 class NowPlayingInfo {
 public:
     /** \brief Default constructor */
-    NowPlayingInfo();
+    NowPlayingInfo() = default;
     /** \brief Constructor that sets artist and track */
     NowPlayingInfo(std::string artist, std::string track);
     /** \brief Constructor that sets artist and track (unicode) */
@@ -84,8 +84,8 @@ protected:
     std::string m_Track; /**< \brief the track title */
     std::string m_Album; /**< \brief the album */
 
-    int m_TrackLengthInSecs; /**< \brief the track length (in seconds) */
-    int m_TrackNr; /**< \brief the track number */
+    int m_TrackLengthInSecs { -1 }; /**< \brief the track length (in seconds) */
+    int m_TrackNr { -1 }; /**< \brief the track number */
     std::string m_MusicBrainzId; /**< \brief the Music Brainz Id */
 };
 

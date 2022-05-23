@@ -34,18 +34,12 @@ static const time_t MAX_SECS_BETWEEN_CONNECT = 7200;
 
 LastFmScrobbler::LastFmScrobbler(string user, const string& pass, bool hashedPass, bool synchronous)
 : m_pLastFmClient(new LastFmClient())
-, m_LastConnectionAttempt(0)
-, m_TrackPlayTime(-1)
-, m_TrackResumeTime(0)
 , m_AuthenticateThread(LastFmScrobbler::authenticateThread, this)
 , m_SendInfoThread(LastFmScrobbler::sendInfoThread, this)
 , m_FinishPlayingThread(LastFmScrobbler::finishPlayingThread, this)
-, m_Authenticated(false)
-, m_HardConnectionFailureCount(0)
 , m_Username(std::move(user))
 , m_Password(pass)
 , m_Synchronous(synchronous)
-, m_CommitOnly(false)
 {
     if (!hashedPass) {
         m_Password = LastFmClient::generatePasswordHash(pass);
@@ -54,18 +48,12 @@ LastFmScrobbler::LastFmScrobbler(string user, const string& pass, bool hashedPas
 
 LastFmScrobbler::LastFmScrobbler(const string& clientIdentifier, const string& clientVersion, string user, const string& pass, bool hashedPass, bool synchronous)
 : m_pLastFmClient(new LastFmClient(clientIdentifier, clientVersion))
-, m_LastConnectionAttempt(0)
-, m_TrackPlayTime(-1)
-, m_TrackResumeTime(0)
 , m_AuthenticateThread(LastFmScrobbler::authenticateThread, this)
 , m_SendInfoThread(LastFmScrobbler::sendInfoThread, this)
 , m_FinishPlayingThread(LastFmScrobbler::finishPlayingThread, this)
-, m_Authenticated(false)
-, m_HardConnectionFailureCount(0)
 , m_Username(std::move(user))
 , m_Password(pass)
 , m_Synchronous(synchronous)
-, m_CommitOnly(false)
 {
     if (!hashedPass) {
         m_Password = LastFmClient::generatePasswordHash(pass);
@@ -74,16 +62,10 @@ LastFmScrobbler::LastFmScrobbler(const string& clientIdentifier, const string& c
 
 LastFmScrobbler::LastFmScrobbler(bool synchronous)
 : m_pLastFmClient(nullptr)
-, m_LastConnectionAttempt(0)
-, m_TrackPlayTime(-1)
-, m_TrackResumeTime(0)
 , m_AuthenticateThread(LastFmScrobbler::authenticateThread, this)
 , m_SendInfoThread(LastFmScrobbler::sendInfoThread, this)
 , m_FinishPlayingThread(LastFmScrobbler::finishPlayingThread, this)
-, m_Authenticated(false)
-, m_HardConnectionFailureCount(0)
 , m_Synchronous(synchronous)
-, m_CommitOnly(false)
 {
 }
 

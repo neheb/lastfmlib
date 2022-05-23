@@ -49,7 +49,7 @@ public:
      */
     LastFmClient(std::string clientIdentifier, std::string clientVersion);
 
-    virtual ~LastFmClient() { }
+    virtual ~LastFmClient() = default;
 
     /** Attempt to authenticate with the Last.fm server
      * \param user an std::string containing the username
