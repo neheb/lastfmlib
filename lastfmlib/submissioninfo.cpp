@@ -54,8 +54,7 @@ std::string ratingToString(TrackRating rating)
 } // namespace
 
 SubmissionInfo::SubmissionInfo()
-: NowPlayingInfo()
-, m_TimeStarted(0)
+: m_TimeStarted(0)
 , m_Source(UserChosen)
 , m_Rating(NoRating)
 {
