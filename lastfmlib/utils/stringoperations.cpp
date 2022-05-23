@@ -75,7 +75,7 @@ void wideCharToUtf8(const wstring& wideString, string& utf8String)
     size_t stringLength = wcstombs(nullptr, wideString.c_str(), 0);
     utf8String.resize(stringLength + 1);
 
-    size_t len = wcstombs(&utf8String[0], wideString.c_str(), stringLength + 1);
+    size_t len = wcstombs(utf8String.data(), wideString.c_str(), stringLength + 1);
     if (len == static_cast<size_t>(-1)) {
         throw logic_error("Failed to convert wideString to UTF-8");
     }
@@ -88,7 +88,7 @@ void utf8ToWideChar(const string& utf8String, wstring& wideString)
     size_t stringLength = mbstowcs(nullptr, utf8String.c_str(), 0);
     wideString.resize(stringLength + 1);
 
-    size_t len = mbstowcs(&wideString[0], utf8String.c_str(), stringLength + 1);
+    size_t len = mbstowcs(wideString.data(), utf8String.c_str(), stringLength + 1);
     if (len == static_cast<size_t>(-1)) {
         throw logic_error("Failed to convert wideString to UTF-8");
     }
