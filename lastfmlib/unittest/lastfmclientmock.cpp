@@ -4,17 +4,6 @@
 
 using namespace std;
 
-LastFmClientMock::LastFmClientMock()
-: m_HandShakeThrowConnectionError(false)
-, m_HandShakeThrowException(false)
-, m_BadSessionError(false)
-, m_NowPlayingCalled(false)
-, m_SubmitCalled(false)
-, m_SubmitCollectionCalled(false)
-, m_HandshakeCalled(false)
-{
-}
-
 void LastFmClientMock::handshake(const std::string& user, const std::string& pass)
 {
     m_HandshakeCalled = true;

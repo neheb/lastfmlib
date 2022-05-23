@@ -12,20 +12,18 @@ class SubmissionInfoCollection;
 
 class LastFmClientMock : public LastFmClient {
 public:
-    LastFmClientMock();
-
     void handshake(const std::string& user, const std::string& pass) override;
     void nowPlaying(const NowPlayingInfo& info) override;
     void submit(const SubmissionInfo& info) override;
     void submit(const SubmissionInfoCollection& infoCollection) override;
 
-    bool m_HandShakeThrowConnectionError;
-    bool m_HandShakeThrowException;
-    bool m_BadSessionError;
-    bool m_NowPlayingCalled;
-    bool m_SubmitCalled;
-    bool m_SubmitCollectionCalled;
-    bool m_HandshakeCalled;
+    bool m_HandShakeThrowConnectionError {};
+    bool m_HandShakeThrowException {};
+    bool m_BadSessionError {};
+    bool m_NowPlayingCalled {};
+    bool m_SubmitCalled {};
+    bool m_SubmitCollectionCalled {};
+    bool m_HandshakeCalled {};
 
     NowPlayingInfo m_LastRecPlayingInfo;
     SubmissionInfo m_LastRecSubmitInfo;

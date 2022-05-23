@@ -100,11 +100,11 @@ protected:
     LastFmScrobbler(bool synchronous);
     LastFmClient* m_pLastFmClient;
     /** \brief Last time a connection attempt was made */
-    time_t m_LastConnectionAttempt;
+    time_t m_LastConnectionAttempt {};
     /** \brief The time that the current track has been played, is set on pause */
-    time_t m_TrackPlayTime;
+    time_t m_TrackPlayTime { -1 };
     /** \brief The time that the current track was resumed after a pause */
-    time_t m_TrackResumeTime;
+    time_t m_TrackResumeTime {};
     /** \brief Thread handle of authentication thread (protected for testing) */
     utils::Thread m_AuthenticateThread;
     /** \brief Thread handle of sendinfo thread (protected for testing) */
@@ -130,8 +130,8 @@ private:
     SubmissionInfo m_CurrentTrackInfo;
     SubmissionInfoCollection m_BufferedTrackInfos;
 
-    bool m_Authenticated;
-    int m_HardConnectionFailureCount;
+    bool m_Authenticated {};
+    int m_HardConnectionFailureCount {};
     utils::Condition m_AuthenticatedCondition;
     utils::Mutex m_AuthenticatedMutex;
     utils::Mutex m_TrackInfosMutex;
@@ -140,7 +140,7 @@ private:
     std::string m_Password;
 
     bool m_Synchronous;
-    bool m_CommitOnly;
+    bool m_CommitOnly {};
 };
 
 #endif

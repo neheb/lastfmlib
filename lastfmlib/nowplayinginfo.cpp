@@ -20,23 +20,13 @@
 
 using namespace std;
 
-NowPlayingInfo::NowPlayingInfo()
-: m_TrackLengthInSecs(-1)
-, m_TrackNr(-1)
-{
-}
-
 NowPlayingInfo::NowPlayingInfo(std::string artist, std::string track)
 : m_Artist(std::move(artist))
 , m_Track(std::move(track))
-, m_TrackLengthInSecs(-1)
-, m_TrackNr(-1)
 {
 }
 
 NowPlayingInfo::NowPlayingInfo(const std::wstring& artist, const std::wstring& track)
-: m_TrackLengthInSecs(-1)
-, m_TrackNr(-1)
 {
     StringOperations::wideCharToUtf8(artist, m_Artist);
     StringOperations::wideCharToUtf8(track, m_Track);
