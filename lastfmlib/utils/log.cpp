@@ -44,7 +44,7 @@ static const std::string purple;
 static const std::string standard;
 #endif
 
-static void outputInfo(const std::string& message)
+static inline void outputInfo([[maybe_unused]] const std::string& message)
 {
 #ifdef ENABLE_LOGGING
     syslog(LOG_INFO, "%s", message.c_str());
@@ -109,7 +109,7 @@ void info(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5, 
     outputInfo(ss.str());
 }
 
-static void outputWarn(const std::string& message)
+static inline void outputWarn(const std::string& message)
 {
 #ifdef ENABLE_LOGGING
     syslog(LOG_WARNING, "%s", message.c_str());
@@ -172,7 +172,7 @@ void warn(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5, 
     outputWarn(ss.str());
 }
 
-static void outputCritical(const std::string& message)
+static inline void outputCritical(const std::string& message)
 {
 #ifdef ENABLE_LOGGING
     syslog(LOG_CRIT, "%s", message.c_str());
@@ -235,7 +235,7 @@ void critical(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& 
     outputCritical(ss.str());
 }
 
-static void outputError(const std::string& message)
+static inline void outputError(const std::string& message)
 {
 #ifdef ENABLE_LOGGING
     syslog(LOG_ERR, "%s", message.c_str());
@@ -298,7 +298,7 @@ void error(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5,
     outputError(ss.str());
 }
 
-static void outputDebug(const std::string& message)
+static inline void outputDebug([[maybe_unused]] const std::string& message)
 {
 #ifdef ENABLE_LOGGING
     syslog(LOG_DEBUG, "%s", message.c_str());

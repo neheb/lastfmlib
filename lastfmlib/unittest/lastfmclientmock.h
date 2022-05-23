@@ -14,10 +14,10 @@ class LastFmClientMock : public LastFmClient {
 public:
     LastFmClientMock();
 
-    void handshake(const std::string& user, const std::string& pass);
-    void nowPlaying(const NowPlayingInfo& info);
-    void submit(const SubmissionInfo& info);
-    void submit(const SubmissionInfoCollection& infoCollection);
+    void handshake(const std::string& user, const std::string& pass) override;
+    void nowPlaying(const NowPlayingInfo& info) override;
+    void submit(const SubmissionInfo& info) override;
+    void submit(const SubmissionInfoCollection& infoCollection) override;
 
     bool m_HandShakeThrowConnectionError;
     bool m_HandShakeThrowException;
