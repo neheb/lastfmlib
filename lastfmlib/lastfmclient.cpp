@@ -34,15 +34,6 @@
 using namespace std;
 using namespace StringOperations;
 
-static const string CLIENT_IDENTIFIER = "lfc";
-static const string CLIENT_VERSION = "1.0";
-
-LastFmClient::LastFmClient()
-: m_ClientIdentifier(CLIENT_IDENTIFIER)
-, m_ClientVersion(CLIENT_VERSION)
-{
-}
-
 LastFmClient::LastFmClient(std::string clientIdentifier, std::string clientVersion)
 : m_ClientIdentifier(std::move(clientIdentifier))
 , m_ClientVersion(std::move(clientVersion))
@@ -132,7 +123,7 @@ void LastFmClient::submit(const string& postData)
     }
 }
 
-string generateMD5String(const string& data)
+static string generateMD5String(const string& data)
 {
     md5_byte_t digest[16];
 
@@ -149,7 +140,7 @@ string generateMD5String(const string& data)
     return md5String.str();
 }
 
-string generateAutenticationToken(const string& pass, time_t timestamp)
+static string generateAutenticationToken(const string& pass, time_t timestamp)
 {
     return generateMD5String(pass + getPostData(timestamp));
 }

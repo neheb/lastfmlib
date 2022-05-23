@@ -41,7 +41,7 @@ public:
     /** Default constructor which will use the Last.fm client identifier
      * and version of lastfmlib
      */
-    LastFmClient();
+    LastFmClient() = default;
 
     /** Constructor
      * \param clientIdentifier an std::string containing the Last.fm client identifier
@@ -104,8 +104,8 @@ private:
     void submit(const std::string& postData);
 
     UrlClient m_UrlClient;
-    std::string m_ClientIdentifier;
-    std::string m_ClientVersion;
+    std::string m_ClientIdentifier { "lfc" };
+    std::string m_ClientVersion { "1.0" };
     std::string m_SessionId;
     std::string m_NowPlayingUrl;
     std::string m_SubmissionUrl;
