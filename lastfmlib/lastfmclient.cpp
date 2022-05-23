@@ -164,7 +164,7 @@ void LastFmClient::setProxy(const std::string& server, uint32_t port, const std:
     m_UrlClient.setProxy(server, port, username, password);
 }
 
-string LastFmClient::createRequestString(const string& user, const string& pass)
+string LastFmClient::createRequestString(const string& user, const string& pass) const
 {
     time_t timestamp = time(nullptr);
 
@@ -179,28 +179,28 @@ string LastFmClient::createRequestString(const string& user, const string& pass)
     return request.str();
 }
 
-string LastFmClient::createNowPlayingString(const NowPlayingInfo& info)
+string LastFmClient::createNowPlayingString(const NowPlayingInfo& info) const
 {
     stringstream nowPlaying;
     nowPlaying << "&s=" << m_SessionId << info.getPostData();
     return nowPlaying.str();
 }
 
-string LastFmClient::createSubmissionString(const SubmissionInfo& info)
+string LastFmClient::createSubmissionString(const SubmissionInfo& info) const
 {
     stringstream submission;
     submission << "&s=" << m_SessionId << info.getPostData();
     return submission.str();
 }
 
-string LastFmClient::createSubmissionString(const SubmissionInfoCollection& infoCollection)
+string LastFmClient::createSubmissionString(const SubmissionInfoCollection& infoCollection) const
 {
     stringstream submission;
     submission << "&s=" << m_SessionId << infoCollection.getPostData();
     return submission.str();
 }
 
-void LastFmClient::throwOnInvalidSession()
+void LastFmClient::throwOnInvalidSession() const
 {
     if (m_SessionId.empty()) {
         throw logic_error("No last.fm session available");
