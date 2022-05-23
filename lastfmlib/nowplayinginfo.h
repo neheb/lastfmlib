@@ -40,7 +40,7 @@ public:
     NowPlayingInfo(const std::wstring& artist, const std::wstring& track);
 
     /** \brief returns the postdata needed to submit the info to Last.fm, used by LastFmClient */
-    std::string getPostData() const;
+    [[nodiscard]] std::string getPostData() const;
 
     /** \brief sets the artist of the track */
     void setArtist(const std::string& artist);
@@ -67,15 +67,15 @@ public:
     void setMusicBrainzId(const std::wstring& musicBrainzId);
 
     /** \brief returns the artist */
-    const std::string& getArtist() const;
+    [[nodiscard]] const std::string& getArtist() const;
     /** \brief returns the track title */
-    const std::string& getTrack() const;
+    [[nodiscard]] const std::string& getTrack() const;
     /** \brief returns the album */
-    const std::string& getAlbum() const;
+    [[nodiscard]] const std::string& getAlbum() const;
     /** \brief returns the track length (in seconds) */
-    int getTrackLength() const;
+    [[nodiscard]] int getTrackLength() const;
     /** \brief returns the track number */
-    int getTrackNr() const;
+    [[nodiscard]] int getTrackNr() const;
     /** \brief returns Music Brainz Id */
     const std::string& getMusicBrainzId();
 

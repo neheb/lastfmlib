@@ -46,9 +46,9 @@ public:
     SubmissionInfo(const std::wstring& artist, const std::wstring& title, time_t timeStarted = -1);
 
     /** \brief returns the postdata needed to submit the info to Last.fm, used by LastFmClient */
-    std::string getPostData(int index = 0) const;
+    [[nodiscard]] std::string getPostData(int index = 0) const;
     /** \brief returns the time track started playing */
-    time_t getTimeStarted() const;
+    [[nodiscard]] time_t getTimeStarted() const;
 
     /** Set the source of the track
      * \param source the source type
