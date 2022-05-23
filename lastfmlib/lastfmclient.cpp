@@ -65,7 +65,8 @@ void LastFmClient::handshake(const string& user, const string& pass)
     vector<string> lines = tokenize(response, "\n");
     if (lines[0] != "OK") {
         throw logic_error("Failed to connect to last.fm: " + lines[0]);
-    } else if (lines.size() < 4) {
+    }
+    if (lines.size() < 4) {
         Log::debug("Response:", response, "( lines", lines.size(), ")");
         throw logic_error("Failed to connect to last.fm: invalid response length");
     }
@@ -90,7 +91,8 @@ void LastFmClient::nowPlaying(const NowPlayingInfo& info)
 
     if (lines[0] == "BADSESSION") {
         throw BadSessionError("Session has become invalid");
-    } else if (lines[0] != "OK") {
+    }
+    if (lines[0] != "OK") {
         throw logic_error("Failed to set now playing info: " + lines[0]);
     }
 }
@@ -121,9 +123,11 @@ void LastFmClient::submit(const string& postData)
 
     if (lines[0] == "BADSESSION") {
         throw BadSessionError("Session has become invalid");
-    } else if (lines[0] == "FAILED") {
+    }
+    if (lines[0] == "FAILED") {
         throw logic_error("Failed to submit info: " + lines[0]);
-    } else if (lines[0] != "OK") {
+    }
+    if (lines[0] != "OK") {
         throw logic_error("Hard failure of info submission: " + lines[0]);
     }
 }
