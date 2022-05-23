@@ -18,8 +18,7 @@
 
 #include "mutex.h"
 
-namespace utils
-{
+namespace utils {
 
 ScopedLock::ScopedLock(Mutex& mutex)
 : m_Mutex(mutex)

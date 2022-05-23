@@ -1,17 +1,16 @@
 #ifndef LAST_FM_CLIENT_MOCK_H
 #define LAST_FM_CLIENT_MOCK_H
 
-#include <string>
 #include "lastfmlib/lastfmclient.h"
 #include "lastfmlib/submissioninfo.h"
 #include "lastfmlib/submissioninfocollection.h"
+#include <string>
 
 class NowPlayingInfo;
 class SubmissionInfo;
 class SubmissionInfoCollection;
 
-class LastFmClientMock : public LastFmClient
-{
+class LastFmClientMock : public LastFmClient {
 public:
     LastFmClientMock();
 

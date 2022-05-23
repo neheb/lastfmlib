@@ -19,12 +19,11 @@
 
 #include <string>
 
-class UrlClient
-{
+class UrlClient {
 public:
     UrlClient();
     ~UrlClient();
-    
+
     void setProxy(const std::string& server, uint32_t port = 8080, const std::string& username = "", const std::string& password = "");
 
     void get(const std::string& url, std::string& response);
@@ -33,9 +32,9 @@ public:
 private:
     void initialize();
     void cleanup();
-    
+
     std::string m_ProxyServer;
-    std::string	m_ProxyUserPass;
+    std::string m_ProxyUserPass;
 };
 
 #endif

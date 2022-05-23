@@ -17,12 +17,11 @@
 #ifndef SUBMISSION_INFO_COLLECTION_H
 #define SUBMISSION_INFO_COLLECTION_H
 
+#include "submissioninfo.h"
 #include <deque>
 #include <string>
-#include "submissioninfo.h"
 
-class SubmissionInfoCollection
-{
+class SubmissionInfoCollection {
 public:
     void addInfo(const SubmissionInfo& info);
     void clear();

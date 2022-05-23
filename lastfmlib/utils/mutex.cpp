@@ -18,8 +18,7 @@
 
 #include <stdexcept>
 
-namespace utils
-{
+namespace utils {
 
 Mutex::Mutex()
 : m_Mutex()

@@ -16,8 +16,8 @@
 
 #include "urlclient.h"
 
-#include <curl/curl.h>
 #include <assert.h>
+#include <curl/curl.h>
 #include <stdexcept>
 
 using namespace std;
@@ -36,23 +36,19 @@ UrlClient::~UrlClient()
 
 void UrlClient::setProxy(const std::string& server, uint32_t port, const std::string& username, const std::string& password)
 {
-	if (server.empty())
-	{
-		m_ProxyServer.clear();
-		m_ProxyUserPass.clear();
-		return;
-	}
-	
-	m_ProxyServer 	= server + ':' + std::to_string(port);
-	
-	if (!username.empty() && !password.empty())
-	{
-		m_ProxyUserPass = username + ':' + password;
-	}
-	else
-	{
-		m_ProxyUserPass.clear();
-	}
+    if (server.empty()) {
+        m_ProxyServer.clear();
+        m_ProxyUserPass.clear();
+        return;
+    }
+
+    m_ProxyServer = server + ':' + std::to_string(port);
+
+    if (!username.empty() && !password.empty()) {
+        m_ProxyUserPass = username + ':' + password;
+    } else {
+        m_ProxyUserPass.clear();
+    }
 }
 
 void UrlClient::initialize()
@@ -63,8 +59,7 @@ void UrlClient::initialize()
     CURLcode rc = curl_global_init(CURL_GLOBAL_ALL);
 #endif
 
-    if (CURLE_OK != rc)
-    {
+    if (CURLE_OK != rc) {
         throw std::logic_error("Failed to initialize libcurl");
     }
 }
@@ -85,22 +80,19 @@ void UrlClient::get(const string& url, string& response)
     curl_easy_setopt(curlHandle, CURLOPT_FAILONERROR, 1);
     curl_easy_setopt(curlHandle, CURLOPT_CONNECTTIMEOUT, 5);
     curl_easy_setopt(curlHandle, CURLOPT_NOSIGNAL, 1);
-    
-    if (!m_ProxyServer.empty())
-    {
-		curl_easy_setopt(curlHandle, CURLOPT_PROXY, m_ProxyServer.c_str());
-	}
-	
-	if (!m_ProxyUserPass.empty())
-	{
-		curl_easy_setopt(curlHandle, CURLOPT_PROXYUSERPWD, m_ProxyUserPass.c_str());
-	}
+
+    if (!m_ProxyServer.empty()) {
+        curl_easy_setopt(curlHandle, CURLOPT_PROXY, m_ProxyServer.c_str());
+    }
+
+    if (!m_ProxyUserPass.empty()) {
+        curl_easy_setopt(curlHandle, CURLOPT_PROXYUSERPWD, m_ProxyUserPass.c_str());
+    }
 
     CURLcode rc = curl_easy_perform(curlHandle);
     curl_easy_cleanup(curlHandle);
 
-    if (CURLE_OK != rc)
-    {
+    if (CURLE_OK != rc) {
         throw std::logic_error("Failed to get " + url + ": " + curl_easy_strerror(rc));
     }
 }
@@ -121,8 +113,7 @@ void UrlClient::post(const string& url, const string& data, string& response)
     CURLcode rc = curl_easy_perform(curlHandle);
     curl_easy_cleanup(curlHandle);
 
-    if(CURLE_OK != rc)
-    {
+    if (CURLE_OK != rc) {
         throw std::logic_error("Failed to post " + url + ": " + curl_easy_strerror(rc));
     }
 }

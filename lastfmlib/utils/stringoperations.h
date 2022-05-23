@@ -17,15 +17,15 @@
 #ifndef STRING_OPERATIONS_H
 #define STRING_OPERATIONS_H
 
+#include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <sstream>
-#include <iostream>
 
 #include <algorithm>
-#include <wchar.h>
-#include <stdexcept>
 #include <iostream>
+#include <stdexcept>
+#include <wchar.h>
 
 namespace StringOperations {
 void replace(std::string& aString, const std::string& toSearch, const std::string& toReplace);

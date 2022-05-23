@@ -23,9 +23,9 @@
 #ifndef LAST_FM_CLIENT_H
 #define LAST_FM_CLIENT_H
 
-#include <string>
-#include "urlclient.h"
 #include "lastfmexceptions.h"
+#include "urlclient.h"
+#include <string>
 
 #include <iostream>
 
@@ -36,8 +36,7 @@ class SubmissionInfoCollection;
 /** The LastFmClient class provides access to Last.Fm to submit tracks
  *  and set Now Playing info.
  */
-class LastFmClient
-{
+class LastFmClient {
 public:
     /** Default constructor which will use the Last.fm client identifier
      * and version of lastfmlib
@@ -50,7 +49,7 @@ public:
      */
     LastFmClient(const std::string& clientIdentifier, const std::string& clientVersion);
 
-    virtual ~LastFmClient() {}
+    virtual ~LastFmClient() { }
 
     /** Attempt to authenticate with the Last.fm server
      * \param user an std::string containing the username
@@ -87,7 +86,7 @@ public:
      * \return a string containing the hashed password
      */
     static std::string generatePasswordHash(const std::string& password);
-    
+
     /** Set the proxy server to use for the connection to the Last.fm servers
      * \param server the address of the proxy server
      * \param port the port of the proxy server
@@ -104,12 +103,12 @@ private:
     void throwOnInvalidSession();
     void submit(const std::string& postData);
 
-    UrlClient       m_UrlClient;
-    std::string     m_ClientIdentifier;
-    std::string     m_ClientVersion;
-    std::string     m_SessionId;
-    std::string     m_NowPlayingUrl;
-    std::string     m_SubmissionUrl;
+    UrlClient m_UrlClient;
+    std::string m_ClientIdentifier;
+    std::string m_ClientVersion;
+    std::string m_SessionId;
+    std::string m_NowPlayingUrl;
+    std::string m_SubmissionUrl;
 };
 
 #endif

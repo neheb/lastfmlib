@@ -4,13 +4,12 @@
 #include "lastfmlib/lastfmscrobbler.h"
 
 #include <ctime>
-#include <unistd.h>
 #include <iostream>
+#include <unistd.h>
 
 using namespace std;
 
-class LastFmScrobblerTester : public LastFmScrobbler
-{
+class LastFmScrobblerTester : public LastFmScrobbler {
 public:
     LastFmScrobblerTester(bool synchronous)
     : LastFmScrobbler(synchronous)
@@ -47,7 +46,6 @@ public:
     LastFmClientMock* pMock;
 };
 
-
 TEST(LastFmScrobblerTest, LastFmScrobbler)
 {
     LastFmScrobblerTester scrobbler(true);
@@ -76,7 +74,7 @@ TEST(LastFmScrobblerTest, LastFmScrobblerConnectionFailed)
     scrobbler.startedPlaying(info1);
     EXPECT_TRUE(!scrobbler.pMock->m_NowPlayingCalled);
 
-    //make sure track has played long enough
+    // make sure track has played long enough
     scrobbler.setTrackPlayTime(100);
     scrobbler.startedPlaying(info2);
     usleep(1000000);
@@ -84,7 +82,7 @@ TEST(LastFmScrobblerTest, LastFmScrobblerConnectionFailed)
     EXPECT_TRUE(!scrobbler.pMock->m_SubmitCalled);
     EXPECT_TRUE(!scrobbler.pMock->m_SubmitCollectionCalled);
 
-    //force immediate reconnect
+    // force immediate reconnect
     scrobbler.pMock->m_HandShakeThrowConnectionError = false;
     scrobbler.setLastConnectionAttempt(0);
     scrobbler.setTrackPlayTime(100);
@@ -123,4 +121,3 @@ TEST(LastFmScrobblerTest, LastFmScrobblerBadSession)
     EXPECT_TRUE(scrobbler.pMock->m_SubmitCollectionCalled);
     EXPECT_TRUE(scrobbler.pMock->m_HandshakeCalled);
 }
-

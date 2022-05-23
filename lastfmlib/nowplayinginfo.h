@@ -23,15 +23,14 @@
 #ifndef NOW_PLAYING_INFO_H
 #define NOW_PLAYING_INFO_H
 
-#include <string>
 #include <iostream>
+#include <string>
 
 /** The NowPlayingInfo class contains all the necessary information to
  *  set the Now Playing info on Last.Fm. Artist and Track are required
  *  fields that must be set.
  */
-class NowPlayingInfo
-{
+class NowPlayingInfo {
 public:
     /** \brief Default constructor */
     NowPlayingInfo();
@@ -42,7 +41,6 @@ public:
 
     /** \brief returns the postdata needed to submit the info to Last.fm, used by LastFmClient */
     std::string getPostData() const;
-
 
     /** \brief sets the artist of the track */
     void setArtist(const std::string& artist);
@@ -82,13 +80,13 @@ public:
     const std::string& getMusicBrainzId();
 
 protected:
-    std::string     m_Artist;               /**< \brief the artist */
-    std::string     m_Track;                /**< \brief the track title */
-    std::string     m_Album;                /**< \brief the album */
+    std::string m_Artist; /**< \brief the artist */
+    std::string m_Track; /**< \brief the track title */
+    std::string m_Album; /**< \brief the album */
 
-    int             m_TrackLengthInSecs;    /**< \brief the track length (in seconds) */
-    int             m_TrackNr;              /**< \brief the track number */
-    std::string     m_MusicBrainzId;        /**< \brief the Music Brainz Id */
+    int m_TrackLengthInSecs; /**< \brief the track length (in seconds) */
+    int m_TrackNr; /**< \brief the track number */
+    std::string m_MusicBrainzId; /**< \brief the Music Brainz Id */
 };
 
 #endif

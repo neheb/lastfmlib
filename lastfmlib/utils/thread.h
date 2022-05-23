@@ -23,12 +23,10 @@
 #include <Windows.h>
 #endif
 
-namespace utils
-{
+namespace utils {
 typedef void* (*ThreadFunction)(void* pInstance);
 
-class Thread
-{
+class Thread {
 public:
     Thread(ThreadFunction pfnThreadFunction, void* pInstance);
     ~Thread();
@@ -39,10 +37,9 @@ public:
     bool isRunning();
 
 private:
-    struct InstancePointers
-    {
+    struct InstancePointers {
         Thread* pThreadInstance;
-        void*   pRunInstance;
+        void* pRunInstance;
     };
 
 #ifndef WIN32
@@ -53,15 +50,15 @@ private:
 #endif
 
 #ifndef WIN32
-    pthread_t           m_Thread{0};
-    pthread_key_t       m_Key{0};
+    pthread_t m_Thread { 0 };
+    pthread_key_t m_Key { 0 };
 #else
-    HANDLE              m_Thread;
-    DWORD               m_ThreadId;
+    HANDLE m_Thread;
+    DWORD m_ThreadId;
 #endif
-    
-    ThreadFunction      m_pfnThreadFunction;
-    InstancePointers    m_InstancePtrs;
+
+    ThreadFunction m_pfnThreadFunction;
+    InstancePointers m_InstancePtrs;
 };
 }
 

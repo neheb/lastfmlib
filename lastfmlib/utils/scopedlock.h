@@ -17,13 +17,11 @@
 #ifndef SCOPED_LOCK_H
 #define SCOPED_LOCK_H
 
-namespace utils
-{
+namespace utils {
 
 class Mutex;
 
-class ScopedLock
-{
+class ScopedLock {
 public:
     ScopedLock(Mutex& mutex);
     ~ScopedLock();

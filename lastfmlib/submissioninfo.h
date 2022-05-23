@@ -24,11 +24,11 @@
 #define SUBMISSION_INFO_H
 
 #include <ctime>
-#include <vector>
 #include <string>
+#include <vector>
 
-#include "nowplayinginfo.h"
 #include "lastfmtypes.h"
+#include "nowplayinginfo.h"
 
 /** The NowPlayingInfo class contains all the necessary information to
  *  submit a played track to Last.Fm. Artist, Track and StartTime are
@@ -36,8 +36,7 @@
  *  NowPlayingInfo and contains some additional information that could
  *  be needed to submit a track.
  */
-class SubmissionInfo : public NowPlayingInfo
-{
+class SubmissionInfo : public NowPlayingInfo {
 public:
     /** \brief Default constructor */
     SubmissionInfo();
@@ -69,10 +68,10 @@ public:
     void setTimeStarted(time_t timeStarted);
 
 private:
-    time_t          m_TimeStarted;
-    TrackSource     m_Source;
-    TrackRating     m_Rating;
-    std::string     m_RecommendationKey;
+    time_t m_TimeStarted;
+    TrackSource m_Source;
+    TrackRating m_Rating;
+    std::string m_RecommendationKey;
 };
 
 #endif

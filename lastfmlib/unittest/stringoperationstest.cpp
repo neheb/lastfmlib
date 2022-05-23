@@ -1,14 +1,14 @@
 #include <gtest/gtest.h>
 
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 
 #include "../utils/stringoperations.h"
 
 using std::string;
-using std::wstring;
 using std::vector;
+using std::wstring;
 
 using namespace StringOperations;
 

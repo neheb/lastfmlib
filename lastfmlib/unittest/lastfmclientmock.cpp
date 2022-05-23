@@ -19,13 +19,11 @@ void LastFmClientMock::handshake(const std::string& user, const std::string& pas
 {
     m_HandshakeCalled = true;
 
-    if (m_HandShakeThrowConnectionError)
-    {
+    if (m_HandShakeThrowConnectionError) {
         throw logic_error("connection error");
     }
 
-    if (m_HandShakeThrowException)
-    {
+    if (m_HandShakeThrowException) {
         throw logic_error("an exception");
     }
 }
@@ -35,8 +33,7 @@ void LastFmClientMock::nowPlaying(const NowPlayingInfo& info)
     m_NowPlayingCalled = true;
     m_LastRecPlayingInfo = info;
 
-    if (m_BadSessionError)
-    {
+    if (m_BadSessionError) {
         m_BadSessionError = false;
         throw BadSessionError("");
     }
@@ -47,8 +44,7 @@ void LastFmClientMock::submit(const SubmissionInfo& info)
     m_SubmitCalled = true;
     m_LastRecSubmitInfo = info;
 
-    if (m_BadSessionError)
-    {
+    if (m_BadSessionError) {
         m_BadSessionError = false;
         throw BadSessionError("");
     }
@@ -59,8 +55,7 @@ void LastFmClientMock::submit(const SubmissionInfoCollection& infoCollection)
     m_SubmitCollectionCalled = true;
     m_LastRecSubmitInfoCollection = infoCollection;
 
-    if (m_BadSessionError)
-    {
+    if (m_BadSessionError) {
         m_BadSessionError = false;
         throw BadSessionError("");
     }

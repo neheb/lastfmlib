@@ -16,12 +16,12 @@
 
 #include "lastfmclient.h"
 
-#include <stdexcept>
-#include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <vector>
 #include <ctime>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <stdexcept>
+#include <vector>
 
 #include "md5/md5.h"
 #include "utils/log.h"
@@ -51,28 +51,21 @@ LastFmClient::LastFmClient(const std::string& clientIdentifier, const std::strin
 
 void LastFmClient::handshake(const string& user, const string& pass)
 {
-    if (user.empty() || pass.empty())
-    {
+    if (user.empty() || pass.empty()) {
         throw logic_error("Failed to connect to last.fm: empty username or password");
     }
 
     string response;
-    try
-    {
+    try {
         m_UrlClient.get(createRequestString(user, pass), response);
-    }
-    catch (logic_error& e)
-    {
+    } catch (logic_error& e) {
         throw ConnectionError(e.what());
     }
 
     vector<string> lines = tokenize(response, "\n");
-    if (lines[0] != "OK")
-    {
+    if (lines[0] != "OK") {
         throw logic_error("Failed to connect to last.fm: " + lines[0]);
-    }
-    else if (lines.size() < 4)
-    {
+    } else if (lines.size() < 4) {
         Log::debug("Response:", response, "( lines", lines.size(), ")");
         throw logic_error("Failed to connect to last.fm: invalid response length");
     }
@@ -87,23 +80,17 @@ void LastFmClient::nowPlaying(const NowPlayingInfo& info)
     throwOnInvalidSession();
 
     string response;
-    try
-    {
+    try {
         m_UrlClient.post(m_NowPlayingUrl, createNowPlayingString(info), response);
-    }
-    catch (logic_error& e)
-    {
+    } catch (logic_error& e) {
         throw ConnectionError(e.what());
     }
 
     vector<string> lines = tokenize(response, "\n");
 
-    if (lines[0] == "BADSESSION")
-    {
+    if (lines[0] == "BADSESSION") {
         throw BadSessionError("Session has become invalid");
-    }
-    else if (lines[0] != "OK")
-    {
+    } else if (lines[0] != "OK") {
         throw logic_error("Failed to set now playing info: " + lines[0]);
     }
 }
@@ -111,7 +98,6 @@ void LastFmClient::nowPlaying(const NowPlayingInfo& info)
 void LastFmClient::submit(const SubmissionInfo& info)
 {
     submit(createSubmissionString(info));
-
 }
 
 void LastFmClient::submit(const SubmissionInfoCollection& infoCollection)
@@ -125,31 +111,22 @@ void LastFmClient::submit(const string& postData)
 
     string response;
 
-    try
-    {
+    try {
         m_UrlClient.post(m_SubmissionUrl, postData, response);
-    }
-    catch (logic_error& e)
-    {
+    } catch (logic_error& e) {
         throw ConnectionError(e.what());
     }
 
     vector<string> lines = tokenize(response, "\n");
 
-    if (lines[0] == "BADSESSION")
-    {
+    if (lines[0] == "BADSESSION") {
         throw BadSessionError("Session has become invalid");
-    }
-    else if (lines[0] == "FAILED")
-    {
+    } else if (lines[0] == "FAILED") {
         throw logic_error("Failed to submit info: " + lines[0]);
-    }
-    else if (lines[0] != "OK")
-    {
+    } else if (lines[0] != "OK") {
         throw logic_error("Hard failure of info submission: " + lines[0]);
     }
 }
-
 
 string generateMD5String(const string& data)
 {
@@ -161,8 +138,7 @@ string generateMD5String(const string& data)
     md5_finish(&state, digest);
 
     stringstream md5String;
-    for (int i = 0; i < 16; ++i)
-    {
+    for (int i = 0; i < 16; ++i) {
         md5String << setw(2) << setfill('0') << hex << static_cast<int>(digest[i]);
     }
 
@@ -181,7 +157,7 @@ string LastFmClient::generatePasswordHash(const string& password)
 
 void LastFmClient::setProxy(const std::string& server, uint32_t port, const std::string& username, const std::string& password)
 {
-	m_UrlClient.setProxy(server, port, username, password);
+    m_UrlClient.setProxy(server, port, username, password);
 }
 
 string LastFmClient::createRequestString(const string& user, const string& pass)
@@ -222,8 +198,7 @@ string LastFmClient::createSubmissionString(const SubmissionInfoCollection& info
 
 void LastFmClient::throwOnInvalidSession()
 {
-    if (m_SessionId.empty())
-    {
+    if (m_SessionId.empty()) {
         throw logic_error("No last.fm session available");
     }
 }

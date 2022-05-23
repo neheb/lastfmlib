@@ -1,18 +1,17 @@
 #include <iostream>
-#include <string>
-#include <unistd.h>
 #include <locale.h>
-#include <sys/types.h>
+#include <string>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include <gtest/gtest.h>
 
 using namespace std;
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-    if (!setlocale(LC_CTYPE, ""))
-    {
+    if (!setlocale(LC_CTYPE, "")) {
         cerr << "Locale not specified. Check LANG, LC_CTYPE, LC_ALL" << endl;
         return 1;
     }
