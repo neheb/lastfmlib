@@ -23,17 +23,15 @@
 #include <Windows.h>
 #endif
 
-namespace utils
-{
+namespace utils {
 
 #ifndef WIN32
-    typedef pthread_mutex_t MutexHandle;
+typedef pthread_mutex_t MutexHandle;
 #else
-    typedef CRITICAL_SECTION MutexHandle;
+typedef CRITICAL_SECTION MutexHandle;
 #endif
 
-class Mutex
-{
+class Mutex {
 public:
     Mutex();
     ~Mutex();

@@ -25,13 +25,11 @@
 
 #include <cstdint>
 
-namespace utils
-{
+namespace utils {
 
 class Mutex;
 
-class Condition
-{
+class Condition {
 public:
     Condition();
     ~Condition();
@@ -43,7 +41,7 @@ public:
 
 private:
 #ifndef WIN32
-    pthread_cond_t  m_Condition;
+    pthread_cond_t m_Condition;
 #else
     HANDLE m_Condition;
 #endif

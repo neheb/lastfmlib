@@ -26,22 +26,20 @@
 /** The TrackSource enum contains possible sources fo submitted tracks.
  * Note: Currently Last.fm only supports UserChosen and Lastfm
  */
-enum TrackSource
-{
-    UserChosen,                 /**< Chosen by the user */
-    NonPersonalizedBroadCast,   /**< Non-personalised broadcast (e.g. Shoutcast, BBC Radio 1) */
+enum TrackSource {
+    UserChosen, /**< Chosen by the user */
+    NonPersonalizedBroadCast, /**< Non-personalised broadcast (e.g. Shoutcast, BBC Radio 1) */
     PersonalizedRecommendation, /**< Personalised recommendation except Last.fm (e.g. Pandora, Launchcast) */
-    Lastfm,                     /**< Last.fm */
-    UnknownSource               /**< Unknown source */
+    Lastfm, /**< Last.fm */
+    UnknownSource /**< Unknown source */
 };
 
 /** The TrackRating enum contains possible ratings for a track.
  */
-enum TrackRating
-{
-    Love,    /**< On any mode if the user has manually loved the track. This implies a listen */
-    Ban,     /**< Only if source = Lastfm. This implies a skip, and the client should skip to the next track when a ban happens */
-    Skip,    /**< Only if source = Lastfm */
+enum TrackRating {
+    Love, /**< On any mode if the user has manually loved the track. This implies a listen */
+    Ban, /**< Only if source = Lastfm. This implies a skip, and the client should skip to the next track when a ban happens */
+    Skip, /**< Only if source = Lastfm */
     NoRating /**< If no rating is applicable */
 };
 

@@ -28,8 +28,7 @@
 
 /** The Error class is the base class for all the exceptions
  */
-class Error : public std::exception
-{
+class Error : public std::exception {
 public:
     /** Constructor
      * \param message an std::string containing the error message
@@ -62,8 +61,7 @@ private:
  * std::exception. It is used to indicate that no connection could be
  * established.
  */
-class ConnectionError : public Error
-{
+class ConnectionError : public Error {
 public:
     /** Constructor
      * \param message an std::string containing the error message
@@ -78,8 +76,7 @@ public:
  * std::exception. It is used to indicate that the current session has
  * become invalid due to another connection on the same account
  */
-class BadSessionError : public Error
-{
+class BadSessionError : public Error {
 public:
     /** Constructor
      * \param message an std::string containing the error message

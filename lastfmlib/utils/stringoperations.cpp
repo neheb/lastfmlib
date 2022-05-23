@@ -19,16 +19,14 @@
 
 using namespace std;
 
-namespace StringOperations
-{
+namespace StringOperations {
 
 void replace(std::string& aString, const std::string& toSearch, const std::string& toReplace)
 {
     size_t startPos = 0;
     size_t foundPos;
 
-    while (std::string::npos != (foundPos = aString.find(toSearch, startPos)))
-    {
+    while (std::string::npos != (foundPos = aString.find(toSearch, startPos))) {
         aString.replace(foundPos, toSearch.length(), toReplace);
         startPos = foundPos + toReplace.size();
     }
@@ -43,26 +41,13 @@ string urlEncode(const string& aString)
 {
     stringstream result;
 
-    for (size_t i = 0; i < aString.size(); ++i)
-    {
+    for (size_t i = 0; i < aString.size(); ++i) {
         int curChar = static_cast<int>(static_cast<unsigned char>(aString[i]));
-        if ((curChar >= 48 && curChar <= 57) ||
-            (curChar >= 65 && curChar <= 90) ||
-            (curChar >= 97 && curChar <= 122) ||
-            aString[i] == '-' || aString[i] == '_' ||
-            aString[i] == '.' || aString[i] == '!' ||
-            aString[i] == '~' || aString[i] == '*' ||
-            aString[i] == '\'' || aString[i] == '(' ||
-            aString[i] == ')')
-        {
+        if ((curChar >= 48 && curChar <= 57) || (curChar >= 65 && curChar <= 90) || (curChar >= 97 && curChar <= 122) || aString[i] == '-' || aString[i] == '_' || aString[i] == '.' || aString[i] == '!' || aString[i] == '~' || aString[i] == '*' || aString[i] == '\'' || aString[i] == '(' || aString[i] == ')') {
             result << aString[i];
-        }
-        else if (aString[i] == ' ')
-        {
+        } else if (aString[i] == ' ') {
             result << '+';
-        }
-        else
-        {
+        } else {
             result << '%' << hex << curChar;
         }
     }
@@ -72,12 +57,11 @@ string urlEncode(const string& aString)
 
 vector<string> tokenize(const string& str, const string& delimiter)
 {
-    vector<string>    tokens;
-    string                 tempString = str;
-    size_t                      pos = 0;
+    vector<string> tokens;
+    string tempString = str;
+    size_t pos = 0;
 
-    while ((pos = tempString.find(delimiter)) != string::npos)
-    {
+    while ((pos = tempString.find(delimiter)) != string::npos) {
         tokens.push_back(tempString.substr(0, pos));
         tempString.erase(0, pos + delimiter.size());
     }
@@ -92,8 +76,7 @@ void wideCharToUtf8(const wstring& wideString, string& utf8String)
     utf8String.resize(stringLength + 1);
 
     size_t len = wcstombs(&utf8String[0], wideString.c_str(), stringLength + 1);
-    if (len == static_cast<size_t>(-1))
-    {
+    if (len == static_cast<size_t>(-1)) {
         throw logic_error("Failed to convert wideString to UTF-8");
     }
 
@@ -106,8 +89,7 @@ void utf8ToWideChar(const string& utf8String, wstring& wideString)
     wideString.resize(stringLength + 1);
 
     size_t len = mbstowcs(&wideString[0], utf8String.c_str(), stringLength + 1);
-    if (len == static_cast<size_t>(-1))
-    {
+    if (len == static_cast<size_t>(-1)) {
         throw logic_error("Failed to convert wideString to UTF-8");
     }
 

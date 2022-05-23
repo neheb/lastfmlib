@@ -21,23 +21,21 @@
 #endif
 
 #ifdef ENABLE_LOGGING
-    #include <syslog.h>
+#include <syslog.h>
 #endif
 
-#include <string>
 #include <iostream>
 #include <sstream>
+#include <string>
 
-namespace Log
-{
-
+namespace Log {
 
 #ifndef WIN32
-static const std::string red         = "\033[31m";
-static const std::string green       = "\033[32m";
-static const std::string yellow      = "\033[33m";
-static const std::string purple      = "\033[35m";
-static const std::string standard    = "\033[39m";
+static const std::string red = "\033[31m";
+static const std::string green = "\033[32m";
+static const std::string yellow = "\033[33m";
+static const std::string purple = "\033[35m";
+static const std::string standard = "\033[39m";
 #else
 static const std::string red;
 static const std::string green;
@@ -57,7 +55,7 @@ static void outputInfo(const std::string& message)
 #endif
 }
 
-template<typename T1>
+template <typename T1>
 void info(const T1& t1)
 {
     std::stringstream ss;
@@ -66,7 +64,7 @@ void info(const T1& t1)
     outputInfo(ss.str());
 }
 
-template<typename T1, typename T2>
+template <typename T1, typename T2>
 void info(const T1& t1, const T2& t2)
 {
     std::stringstream ss;
@@ -75,7 +73,7 @@ void info(const T1& t1, const T2& t2)
     outputInfo(ss.str());
 }
 
-template<typename T1, typename T2, typename T3>
+template <typename T1, typename T2, typename T3>
 void info(const T1& t1, const T2& t2, const T3& t3)
 {
     std::stringstream ss;
@@ -84,7 +82,7 @@ void info(const T1& t1, const T2& t2, const T3& t3)
     outputInfo(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4>
+template <typename T1, typename T2, typename T3, typename T4>
 void info(const T1& t1, const T2& t2, const T3& t3, const T4& t4)
 {
     std::stringstream ss;
@@ -93,7 +91,7 @@ void info(const T1& t1, const T2& t2, const T3& t3, const T4& t4)
     outputInfo(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4, typename T5>
+template <typename T1, typename T2, typename T3, typename T4, typename T5>
 void info(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5)
 {
     std::stringstream ss;
@@ -102,7 +100,7 @@ void info(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5)
     outputInfo(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
+template <typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
 void info(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5, const T6& t6)
 {
     std::stringstream ss;
@@ -110,7 +108,6 @@ void info(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5, 
 
     outputInfo(ss.str());
 }
-
 
 static void outputWarn(const std::string& message)
 {
@@ -121,7 +118,7 @@ static void outputWarn(const std::string& message)
     std::cout << yellow << "WARN:  " << message << standard << std::endl;
 }
 
-template<typename T1>
+template <typename T1>
 void warn(const T1& t1)
 {
     std::stringstream ss;
@@ -130,7 +127,7 @@ void warn(const T1& t1)
     outputWarn(ss.str());
 }
 
-template<typename T1, typename T2>
+template <typename T1, typename T2>
 void warn(const T1& t1, const T2& t2)
 {
     std::stringstream ss;
@@ -139,7 +136,7 @@ void warn(const T1& t1, const T2& t2)
     outputWarn(ss.str());
 }
 
-template<typename T1, typename T2, typename T3>
+template <typename T1, typename T2, typename T3>
 void warn(const T1& t1, const T2& t2, const T3& t3)
 {
     std::stringstream ss;
@@ -148,7 +145,7 @@ void warn(const T1& t1, const T2& t2, const T3& t3)
     outputWarn(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4>
+template <typename T1, typename T2, typename T3, typename T4>
 void warn(const T1& t1, const T2& t2, const T3& t3, const T4& t4)
 {
     std::stringstream ss;
@@ -157,7 +154,7 @@ void warn(const T1& t1, const T2& t2, const T3& t3, const T4& t4)
     outputWarn(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4, typename T5>
+template <typename T1, typename T2, typename T3, typename T4, typename T5>
 void warn(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5)
 {
     std::stringstream ss;
@@ -166,7 +163,7 @@ void warn(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5)
     outputWarn(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
+template <typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
 void warn(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5, const T6& t6)
 {
     std::stringstream ss;
@@ -174,7 +171,6 @@ void warn(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5, 
 
     outputWarn(ss.str());
 }
-
 
 static void outputCritical(const std::string& message)
 {
@@ -185,7 +181,7 @@ static void outputCritical(const std::string& message)
     std::cerr << purple << "CRIT:  " << message << standard << std::endl;
 }
 
-template<typename T1>
+template <typename T1>
 void critical(const T1& t1)
 {
     std::stringstream ss;
@@ -194,7 +190,7 @@ void critical(const T1& t1)
     outputCritical(ss.str());
 }
 
-template<typename T1, typename T2>
+template <typename T1, typename T2>
 void critical(const T1& t1, const T2& t2)
 {
     std::stringstream ss;
@@ -203,7 +199,7 @@ void critical(const T1& t1, const T2& t2)
     outputCritical(ss.str());
 }
 
-template<typename T1, typename T2, typename T3>
+template <typename T1, typename T2, typename T3>
 void critical(const T1& t1, const T2& t2, const T3& t3)
 {
     std::stringstream ss;
@@ -212,7 +208,7 @@ void critical(const T1& t1, const T2& t2, const T3& t3)
     outputCritical(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4>
+template <typename T1, typename T2, typename T3, typename T4>
 void critical(const T1& t1, const T2& t2, const T3& t3, const T4& t4)
 {
     std::stringstream ss;
@@ -221,7 +217,7 @@ void critical(const T1& t1, const T2& t2, const T3& t3, const T4& t4)
     outputCritical(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4, typename T5>
+template <typename T1, typename T2, typename T3, typename T4, typename T5>
 void critical(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5)
 {
     std::stringstream ss;
@@ -230,7 +226,7 @@ void critical(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& 
     outputCritical(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
+template <typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
 void critical(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5, const T6& t6)
 {
     std::stringstream ss;
@@ -238,7 +234,6 @@ void critical(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& 
 
     outputCritical(ss.str());
 }
-
 
 static void outputError(const std::string& message)
 {
@@ -249,7 +244,7 @@ static void outputError(const std::string& message)
     std::cerr << red << "ERROR: " << message << standard << std::endl;
 }
 
-template<typename T1>
+template <typename T1>
 void error(const T1& t1)
 {
     std::stringstream ss;
@@ -258,7 +253,7 @@ void error(const T1& t1)
     outputError(ss.str());
 }
 
-template<typename T1, typename T2>
+template <typename T1, typename T2>
 void error(const T1& t1, const T2& t2)
 {
     std::stringstream ss;
@@ -267,7 +262,7 @@ void error(const T1& t1, const T2& t2)
     outputError(ss.str());
 }
 
-template<typename T1, typename T2, typename T3>
+template <typename T1, typename T2, typename T3>
 void error(const T1& t1, const T2& t2, const T3& t3)
 {
     std::stringstream ss;
@@ -276,7 +271,7 @@ void error(const T1& t1, const T2& t2, const T3& t3)
     outputError(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4>
+template <typename T1, typename T2, typename T3, typename T4>
 void error(const T1& t1, const T2& t2, const T3& t3, const T4& t4)
 {
     std::stringstream ss;
@@ -285,7 +280,7 @@ void error(const T1& t1, const T2& t2, const T3& t3, const T4& t4)
     outputError(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4, typename T5>
+template <typename T1, typename T2, typename T3, typename T4, typename T5>
 void error(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5)
 {
     std::stringstream ss;
@@ -294,7 +289,7 @@ void error(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5)
     outputError(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
+template <typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
 void error(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5, const T6& t6)
 {
     std::stringstream ss;
@@ -302,7 +297,6 @@ void error(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5,
 
     outputError(ss.str());
 }
-
 
 static void outputDebug(const std::string& message)
 {
@@ -315,7 +309,7 @@ static void outputDebug(const std::string& message)
 #endif
 }
 
-template<typename T1>
+template <typename T1>
 void debug(const T1& t1)
 {
     std::stringstream ss;
@@ -324,7 +318,7 @@ void debug(const T1& t1)
     outputDebug(ss.str());
 }
 
-template<typename T1, typename T2>
+template <typename T1, typename T2>
 void debug(const T1& t1, const T2& t2)
 {
     std::stringstream ss;
@@ -333,7 +327,7 @@ void debug(const T1& t1, const T2& t2)
     outputDebug(ss.str());
 }
 
-template<typename T1, typename T2, typename T3>
+template <typename T1, typename T2, typename T3>
 void debug(const T1& t1, const T2& t2, const T3& t3)
 {
     std::stringstream ss;
@@ -342,7 +336,7 @@ void debug(const T1& t1, const T2& t2, const T3& t3)
     outputDebug(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4>
+template <typename T1, typename T2, typename T3, typename T4>
 void debug(const T1& t1, const T2& t2, const T3& t3, const T4& t4)
 {
     std::stringstream ss;
@@ -351,7 +345,7 @@ void debug(const T1& t1, const T2& t2, const T3& t3, const T4& t4)
     outputDebug(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4, typename T5>
+template <typename T1, typename T2, typename T3, typename T4, typename T5>
 void debug(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5)
 {
     std::stringstream ss;
@@ -360,7 +354,7 @@ void debug(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5)
     outputDebug(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
+template <typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
 void debug(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5, const T6& t6)
 {
     std::stringstream ss;
@@ -369,7 +363,7 @@ void debug(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5,
     outputDebug(ss.str());
 }
 
-template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7>
+template <typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7>
 void debug(const T1& t1, const T2& t2, const T3& t3, const T4& t4, const T5& t5, const T6& t6, const T7& t7)
 {
     std::stringstream ss;

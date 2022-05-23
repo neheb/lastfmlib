@@ -17,9 +17,9 @@
 #include "submissioninfo.h"
 #include "utils/stringoperations.h"
 
+#include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include <iostream>
 
 using namespace std;
 
@@ -79,21 +79,20 @@ SubmissionInfo::SubmissionInfo(const wstring& artist, const wstring& track, time
 
 string SubmissionInfo::getPostData(int index) const
 {
-    if (m_Source == UserChosen && m_TrackLengthInSecs < 0)
-    {
+    if (m_Source == UserChosen && m_TrackLengthInSecs < 0) {
         throw logic_error("Tracklength is required when submitting user chosen track");
     }
 
     stringstream ss;
-    ss  << "&a[" << index << "]=" << StringOperations::urlEncode(m_Artist)
-        << "&t[" << index << "]=" << StringOperations::urlEncode(m_Track)
-        << "&i[" << index << "]=" << m_TimeStarted
-        << "&o[" << index << "]=" << sourceToString(m_Source, m_RecommendationKey)
-        << "&r[" << index << "]=" << ratingToString(m_Rating)
-        << "&l[" << index << "]=" << (m_TrackLengthInSecs > 0 ? StringOperations::getPostData(m_TrackLengthInSecs) : "")
-        << "&b[" << index << "]=" << StringOperations::urlEncode(m_Album)
-        << "&n[" << index << "]=" << (m_TrackNr > 0 ? StringOperations::getPostData(m_TrackNr) : "")
-        << "&m[" << index << "]=" << StringOperations::urlEncode(m_MusicBrainzId);
+    ss << "&a[" << index << "]=" << StringOperations::urlEncode(m_Artist)
+       << "&t[" << index << "]=" << StringOperations::urlEncode(m_Track)
+       << "&i[" << index << "]=" << m_TimeStarted
+       << "&o[" << index << "]=" << sourceToString(m_Source, m_RecommendationKey)
+       << "&r[" << index << "]=" << ratingToString(m_Rating)
+       << "&l[" << index << "]=" << (m_TrackLengthInSecs > 0 ? StringOperations::getPostData(m_TrackLengthInSecs) : "")
+       << "&b[" << index << "]=" << StringOperations::urlEncode(m_Album)
+       << "&n[" << index << "]=" << (m_TrackNr > 0 ? StringOperations::getPostData(m_TrackNr) : "")
+       << "&m[" << index << "]=" << StringOperations::urlEncode(m_MusicBrainzId);
 
     return ss.str();
 }

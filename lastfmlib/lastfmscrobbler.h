@@ -23,8 +23,8 @@
 #ifndef LAST_FM_SCROBBLER_H
 #define LAST_FM_SCROBBLER_H
 
-#include <string>
 #include <ctime>
+#include <string>
 
 #include "lastfmclient.h"
 #include "submissioninfo.h"
@@ -33,11 +33,9 @@
 #include "utils/mutex.h"
 #include "utils/thread.h"
 
-
-class LastFmScrobbler
-{
+class LastFmScrobbler {
 public:
-    /** Constructor which will use the Last.fm client identifier and version of lastfmlib 
+    /** Constructor which will use the Last.fm client identifier and version of lastfmlib
      * \param user Last.fm user name
      * \param pass Last.fm password for user
      * \param hashedPass true if the password is hashed, false otherwise
@@ -58,10 +56,10 @@ public:
      * case of network problems)
      */
     LastFmScrobbler(const std::string& clientIdentifier, const std::string& clientVersion, const std::string& user, const std::string& pass, bool hashedPass, bool synchronous);
-    
+
     /** Destructor */
     virtual ~LastFmScrobbler();
-    
+
     /** Authenticate with the Last.fm server, this must be called before
      * you can start comitting tracks
      */
@@ -84,12 +82,12 @@ public:
      * track will be submitted to Last.fm
      */
     void finishedPlaying();
-    
+
     /** Indicate that playback of the current track has been (un)paused
      * \param paused true if track is being paused, false if being unpaused
      */
     void pausePlaying(bool paused);
-    
+
     /** Set the proxy server to use for the connection to the Last.fm servers
      * \param server the address of the proxy server
      * \param port the port of the proxy server
@@ -97,22 +95,22 @@ public:
      * \param password the password if the server needs authentication
      */
     void setProxy(const std::string& server, uint32_t port, const std::string& username = "", const std::string& password = "");
-    
+
 protected:
     LastFmScrobbler(bool synchronous);
-    LastFmClient*   m_pLastFmClient;
+    LastFmClient* m_pLastFmClient;
     /** \brief Last time a connection attempt was made */
-    time_t          m_LastConnectionAttempt;
+    time_t m_LastConnectionAttempt;
     /** \brief The time that the current track has been played, is set on pause */
-    time_t          m_TrackPlayTime;
+    time_t m_TrackPlayTime;
     /** \brief The time that the current track was resumed after a pause */
-    time_t          m_TrackResumeTime;
+    time_t m_TrackResumeTime;
     /** \brief Thread handle of authentication thread (protected for testing) */
-    utils::Thread   m_AuthenticateThread;
+    utils::Thread m_AuthenticateThread;
     /** \brief Thread handle of sendinfo thread (protected for testing) */
-    utils::Thread   m_SendInfoThread;
+    utils::Thread m_SendInfoThread;
     /** \brief Thread handle of finishPlaying thread (protected for testing) */
-    utils::Thread   m_FinishPlayingThread;
+    utils::Thread m_FinishPlayingThread;
 
 private:
     void authenticateIfNecessary();
@@ -128,21 +126,21 @@ private:
     static void* sendInfoThread(void* pInstance);
     static void* finishPlayingThread(void* pInstance);
 
-    SubmissionInfo              m_PreviousTrackInfo;
-    SubmissionInfo              m_CurrentTrackInfo;
-    SubmissionInfoCollection    m_BufferedTrackInfos;
+    SubmissionInfo m_PreviousTrackInfo;
+    SubmissionInfo m_CurrentTrackInfo;
+    SubmissionInfoCollection m_BufferedTrackInfos;
 
-    bool                        m_Authenticated;
-    int                         m_HardConnectionFailureCount;
-    utils::Condition            m_AuthenticatedCondition;
-    utils::Mutex                m_AuthenticatedMutex;
-    utils::Mutex                m_TrackInfosMutex;
+    bool m_Authenticated;
+    int m_HardConnectionFailureCount;
+    utils::Condition m_AuthenticatedCondition;
+    utils::Mutex m_AuthenticatedMutex;
+    utils::Mutex m_TrackInfosMutex;
 
-    std::string                 m_Username;
-    std::string                 m_Password;
+    std::string m_Username;
+    std::string m_Password;
 
-    bool                        m_Synchronous;
-    bool                        m_CommitOnly;
+    bool m_Synchronous;
+    bool m_CommitOnly;
 };
 
 #endif

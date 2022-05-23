@@ -28,15 +28,13 @@
 
 using namespace std;
 
-namespace utils
-{
+namespace utils {
 
 Condition::Condition()
 : m_Condition()
 {
 #ifndef WIN32
-    if (pthread_cond_init(&m_Condition, NULL) != 0)
-    {
+    if (pthread_cond_init(&m_Condition, NULL) != 0) {
         throw std::logic_error("Failed to create condition");
     }
 #else
@@ -55,8 +53,7 @@ void Condition::wait(Mutex& mutex)
 {
 #ifndef WIN32
     int ret = pthread_cond_wait(&m_Condition, mutex.getHandle());
-    if (0 != ret)
-    {
+    if (0 != ret) {
         throw std::logic_error(string("pthread_cond_wait returned: ") + strerror(ret));
     }
 #else
@@ -80,23 +77,17 @@ bool Condition::wait(Mutex& mutex, int32_t timeoutInMs)
     timeoutTime.tv_nsec = static_cast<long>(nanoSeconds % 1000000000);
 
     int ret = pthread_cond_timedwait(&m_Condition, mutex.getHandle(), &timeoutTime);
-    if (ETIMEDOUT == ret)
-    {
+    if (ETIMEDOUT == ret) {
         return false;
-    }
-    else if (0 != ret)
-    {
+    } else if (0 != ret) {
         throw std::logic_error(string("pthread_cond_timedwait returned: ") + strerror(ret));
     }
 #else
     LeaveCriticalSection(mutex.getHandle());
     DWORD ret = WaitForSingleObject(m_Condition, timeoutInMs);
-    if (ret == WAIT_TIMEOUT)
-    {
+    if (ret == WAIT_TIMEOUT) {
         return false;
-    }
-    else if (ret == WAIT_FAILED)
-    {
+    } else if (ret == WAIT_FAILED) {
         throw std::logic_error("Failed to wait for mutex");
     }
 

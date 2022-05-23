@@ -16,29 +16,27 @@
 
 #include "thread.h"
 
+#include <cstring>
 #include <stdexcept>
 #include <string>
-#include <cstring>
 
-namespace utils
-{
+namespace utils {
 
 using namespace std;
 
-
 Thread::Thread(ThreadFunction pfnThreadFunction, void* pInstance)
 #ifdef WIN32
-: m_ThreadId(0),
+: m_ThreadId(0)
+,
 #else
 :
 #endif
-  m_pfnThreadFunction(pfnThreadFunction)
+m_pfnThreadFunction(pfnThreadFunction)
 , m_InstancePtrs()
 {
 #ifndef WIN32
     int32_t ret = pthread_key_create(&m_Key, Thread::onThreadExit);
-    if (0 != ret)
-    {
+    if (0 != ret) {
         throw logic_error(string("Failed to create thread key: ") + strerror(ret));
     }
 #endif
@@ -58,8 +56,7 @@ void Thread::start()
 {
 #ifndef WIN32
     int32_t ret = pthread_create(&m_Thread, NULL, Thread::onThreadStart, &m_InstancePtrs);
-    if (0 != ret)
-    {
+    if (0 != ret) {
         throw logic_error(string("Failed to create thread: ") + strerror(ret));
     }
 #else
@@ -69,8 +66,7 @@ void Thread::start()
 
 void Thread::join()
 {
-    if (m_Thread != 0)
-    {
+    if (m_Thread != 0) {
 #ifndef WIN32
         pthread_join(m_Thread, NULL);
 #else
@@ -81,8 +77,7 @@ void Thread::join()
 
 void Thread::cancel()
 {
-    if (m_Thread != 0)
-    {
+    if (m_Thread != 0) {
 #ifndef WIN32
         pthread_cancel(m_Thread);
 #else
@@ -102,8 +97,7 @@ void* Thread::onThreadStart(void* data)
     InstancePointers* pPtrs = reinterpret_cast<InstancePointers*>(data);
 
     int32_t ret = pthread_setspecific(pPtrs->pThreadInstance->m_Key, pPtrs->pThreadInstance);
-    if (0 != ret)
-    {
+    if (0 != ret) {
         throw logic_error(string("Failed to set thread data: ") + strerror(ret));
     }
     return pPtrs->pThreadInstance->m_pfnThreadFunction(pPtrs->pRunInstance);
@@ -112,7 +106,7 @@ void* Thread::onThreadStart(void* data)
 void Thread::onThreadExit(void* data)
 {
     Thread* pThread = reinterpret_cast<Thread*>(data);
-    //pthread_detach(pThread->m_Thread);
+    // pthread_detach(pThread->m_Thread);
     pThread->m_Thread = 0;
 }
 #else

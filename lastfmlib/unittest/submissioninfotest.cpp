@@ -5,8 +5,8 @@
 #include <iostream>
 #include <stdexcept>
 
-using std::string;
 using std::logic_error;
+using std::string;
 
 TEST(SubmissionInfoTest, GetPostDataUtf8)
 {
@@ -91,5 +91,3 @@ TEST(SubmissionInfoTest, SubmitWithouthTrackLength)
 
     EXPECT_THROW(info.getPostData(), logic_error);
 }
-
-

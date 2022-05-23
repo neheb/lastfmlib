@@ -6,7 +6,6 @@
 #include <ctime>
 #include <unistd.h>
 
-
 using std::string;
 
 TEST(LastFmClientTest, LastFmClient)

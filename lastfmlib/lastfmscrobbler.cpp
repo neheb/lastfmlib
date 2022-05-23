@@ -16,21 +16,21 @@
 
 #include "lastfmscrobbler.h"
 
-#include "utils/scopedlock.h"
 #include "utils/log.h"
+#include "utils/scopedlock.h"
 
-#include <stdexcept>
+#include <algorithm>
 #include <iostream>
 #include <signal.h>
-#include <algorithm>
+#include <stdexcept>
 
 using namespace std;
 using namespace utils;
 
-static const time_t MIN_SECONDS_TO_SUBMIT       = 240;
-static const time_t MIN_TRACK_LENGTH_TO_SUBMIT  = 30;
-static const time_t MIN_SECS_BETWEEN_CONNECT    = 60;
-static const time_t MAX_SECS_BETWEEN_CONNECT    = 7200;
+static const time_t MIN_SECONDS_TO_SUBMIT = 240;
+static const time_t MIN_TRACK_LENGTH_TO_SUBMIT = 30;
+static const time_t MIN_SECS_BETWEEN_CONNECT = 60;
+static const time_t MAX_SECS_BETWEEN_CONNECT = 7200;
 
 LastFmScrobbler::LastFmScrobbler(const string& user, const string& pass, bool hashedPass, bool synchronous)
 : m_pLastFmClient(new LastFmClient())
@@ -47,8 +47,7 @@ LastFmScrobbler::LastFmScrobbler(const string& user, const string& pass, bool ha
 , m_Synchronous(synchronous)
 , m_CommitOnly(false)
 {
-    if (!hashedPass)
-    {
+    if (!hashedPass) {
         m_Password = LastFmClient::generatePasswordHash(pass);
     }
 }
@@ -68,8 +67,7 @@ LastFmScrobbler::LastFmScrobbler(const string& clientIdentifier, const string& c
 , m_Synchronous(synchronous)
 , m_CommitOnly(false)
 {
-    if (!hashedPass)
-    {
+    if (!hashedPass) {
         m_Password = LastFmClient::generatePasswordHash(pass);
     }
 }
@@ -97,7 +95,7 @@ LastFmScrobbler::~LastFmScrobbler()
 
 void LastFmScrobbler::authenticate()
 {
-	authenticateIfNecessary();
+    authenticateIfNecessary();
 }
 
 void LastFmScrobbler::setCommitOnlyMode(bool enabled)
@@ -113,21 +111,16 @@ void LastFmScrobbler::startedPlaying(const SubmissionInfo& info)
     m_PreviousTrackInfo = m_CurrentTrackInfo;
     m_CurrentTrackInfo = info;
 
-    if (m_CurrentTrackInfo.getTimeStarted() < 0)
-    {
+    if (m_CurrentTrackInfo.getTimeStarted() < 0) {
         m_CurrentTrackInfo.setTimeStarted(time(NULL));
     }
 
-    if (m_Synchronous)
-    {
+    if (m_Synchronous) {
         submitTrack(m_PreviousTrackInfo);
-        if (!m_CommitOnly)
-        {
+        if (!m_CommitOnly) {
             setNowPlaying();
         }
-    }
-    else
-    {
+    } else {
         m_SendInfoThread.start();
     }
 }
@@ -135,12 +128,9 @@ void LastFmScrobbler::startedPlaying(const SubmissionInfo& info)
 void LastFmScrobbler::pausePlaying(bool paused)
 {
     time_t curTime = time(NULL);
-    if (paused)
-    {
+    if (paused) {
         m_TrackPlayTime += curTime - m_CurrentTrackInfo.getTimeStarted();
-    }
-    else
-    {
+    } else {
         m_TrackResumeTime = curTime;
     }
 }
@@ -148,19 +138,16 @@ void LastFmScrobbler::pausePlaying(bool paused)
 void LastFmScrobbler::finishedPlaying()
 {
     authenticateIfNecessary();
-    if (m_Synchronous)
-    {
+    if (m_Synchronous) {
         submitTrack(m_CurrentTrackInfo);
-    }
-    else
-    {
+    } else {
         m_FinishPlayingThread.start();
     }
 }
 
 void LastFmScrobbler::setProxy(const std::string& server, uint32_t port, const std::string& username, const std::string& password)
 {
-	m_pLastFmClient->setProxy(server, port, username, password);
+    m_pLastFmClient->setProxy(server, port, username, password);
 }
 
 bool LastFmScrobbler::trackCanBeCommited(const SubmissionInfo& info)
@@ -169,20 +156,14 @@ bool LastFmScrobbler::trackCanBeCommited(const SubmissionInfo& info)
     m_TrackPlayTime += curTime - m_TrackResumeTime;
 
     bool trackTooShort = info.getTrackLength() < MIN_TRACK_LENGTH_TO_SUBMIT;
-    bool trackPlayedLongEnough =
-            m_TrackPlayTime >= MIN_SECONDS_TO_SUBMIT
-        ||  m_TrackPlayTime >= (info.getTrackLength() / 2);
+    bool trackPlayedLongEnough = m_TrackPlayTime >= MIN_SECONDS_TO_SUBMIT
+        || m_TrackPlayTime >= (info.getTrackLength() / 2);
 
-    if (trackTooShort)
-    {
+    if (trackTooShort) {
         Log::info("Track \"" + info.getTrack() + "\" can't be committed: length is too short");
-    }
-    else if (!trackPlayedLongEnough)
-    {
+    } else if (!trackPlayedLongEnough) {
         Log::info("Track \"" + info.getTrack() + "\" can't be committed: not played long enough");
-    }
-    else
-    {
+    } else {
         Log::info("Track \"" + info.getTrack() + "\" can be committed: conditions OK");
     }
 
@@ -191,16 +172,10 @@ bool LastFmScrobbler::trackCanBeCommited(const SubmissionInfo& info)
 
 void LastFmScrobbler::authenticateIfNecessary()
 {
-    if (!m_Authenticated &&
-        !m_AuthenticateThread.isRunning() &&
-        canReconnect())
-    {
-        if (m_Synchronous)
-        {
+    if (!m_Authenticated && !m_AuthenticateThread.isRunning() && canReconnect()) {
+        if (m_Synchronous) {
             authenticateNow();
-        }
-        else
-        {
+        } else {
             m_AuthenticateThread.start();
         }
     }
@@ -208,20 +183,15 @@ void LastFmScrobbler::authenticateIfNecessary()
 
 void LastFmScrobbler::authenticateNow()
 {
-    try
-    {
+    try {
         m_pLastFmClient->handshake(m_Username, m_Password);
         Log::info("Authentication successfull for user: " + m_Username);
         m_HardConnectionFailureCount = 0;
         m_Authenticated = true;
-    }
-    catch (ConnectionError&)
-    {
+    } catch (ConnectionError&) {
         ++m_HardConnectionFailureCount;
         m_LastConnectionAttempt = time(NULL);
-    }
-    catch (logic_error& e)
-    {
+    } catch (logic_error& e) {
         Log::error(e.what());
     }
 }
@@ -258,10 +228,8 @@ void* LastFmScrobbler::sendInfoThread(void* pInstance)
 
     {
         ScopedLock lock(pScrobbler->m_AuthenticatedMutex);
-        if (!pScrobbler->m_Authenticated)
-        {
-            if (!pScrobbler->m_AuthenticatedCondition.wait(pScrobbler->m_AuthenticatedMutex, 4000))
-            {
+        if (!pScrobbler->m_Authenticated) {
+            if (!pScrobbler->m_AuthenticatedCondition.wait(pScrobbler->m_AuthenticatedMutex, 4000)) {
                 Log::info("send info terminated because no connection");
                 pScrobbler->submitTrack(pScrobbler->m_PreviousTrackInfo);
                 return NULL;
@@ -269,11 +237,9 @@ void* LastFmScrobbler::sendInfoThread(void* pInstance)
         }
     }
 
-    if (pScrobbler->m_Authenticated)
-    {
+    if (pScrobbler->m_Authenticated) {
         pScrobbler->submitTrack(pScrobbler->m_PreviousTrackInfo);
-        if (!pScrobbler->m_CommitOnly)
-        {
+        if (!pScrobbler->m_CommitOnly) {
             pScrobbler->setNowPlaying();
         }
     }
@@ -289,15 +255,13 @@ void* LastFmScrobbler::finishPlayingThread(void* pInstance)
 
     {
         ScopedLock lock(pScrobbler->m_AuthenticatedMutex);
-        if (!pScrobbler->m_Authenticated)
-        {
-            //Program is probalby cleaning up, dont't try to start authentication
+        if (!pScrobbler->m_Authenticated) {
+            // Program is probalby cleaning up, dont't try to start authentication
             return NULL;
         }
     }
 
-    if (pScrobbler->m_Authenticated)
-    {
+    if (pScrobbler->m_Authenticated) {
         pScrobbler->submitTrack(pScrobbler->m_PreviousTrackInfo);
     }
 
@@ -307,44 +271,33 @@ void* LastFmScrobbler::finishPlayingThread(void* pInstance)
 
 void LastFmScrobbler::setNowPlaying()
 {
-    if (!m_Authenticated)
-    {
+    if (!m_Authenticated) {
         Log::info("Can't set Now Playing status: not authenticated");
         return;
     }
 
-    try
-    {
+    try {
         m_pLastFmClient->nowPlaying(m_CurrentTrackInfo);
         Log::info("Now playing info submitted: " + m_CurrentTrackInfo.getArtist() + " - " + m_CurrentTrackInfo.getTrack());
-    }
-    catch (BadSessionError&)
-    {
+    } catch (BadSessionError&) {
         Log::info("Session has become invalid: starting new handshake");
         authenticateNow();
         setNowPlaying();
-    }
-    catch (ConnectionError&)
-    {
+    } catch (ConnectionError&) {
         m_Authenticated = false;
-    }
-    catch (logic_error& e)
-    {
+    } catch (logic_error& e) {
         Log::error(e.what());
     }
 }
 
 void LastFmScrobbler::submitTrack(const SubmissionInfo& info)
 {
-    if (info.getTrackLength() < 0 || !trackCanBeCommited(info))
-    {
+    if (info.getTrackLength() < 0 || !trackCanBeCommited(info)) {
         Log::info("Won't submit");
         m_TrackPlayTime = 0;
         m_TrackResumeTime = m_CurrentTrackInfo.getTimeStarted();
         return;
-    }
-    else
-    {
+    } else {
         ScopedLock lock(m_TrackInfosMutex);
         m_BufferedTrackInfos.addInfo(info);
     }
@@ -355,31 +308,21 @@ void LastFmScrobbler::submitTrack(const SubmissionInfo& info)
         tracksToSubmit = m_BufferedTrackInfos;
     }
 
-    try
-    {
-        if (m_Authenticated)
-        {
+    try {
+        if (m_Authenticated) {
             m_pLastFmClient->submit(tracksToSubmit);
             Log::info("Buffered tracks submitted");
             m_BufferedTrackInfos.clear();
-        }
-        else
-        {
+        } else {
             Log::info("Track info buffered: not connected");
         }
-    }
-    catch (BadSessionError&)
-    {
+    } catch (BadSessionError&) {
         Log::info("Session has become invalid: starting new handshake");
         authenticateNow();
         submitTrack(info);
-    }
-    catch (ConnectionError&)
-    {
+    } catch (ConnectionError&) {
         m_Authenticated = false;
-    }
-    catch (logic_error& e)
-    {
+    } catch (logic_error& e) {
         Log::error(e.what());
     }
 
@@ -389,8 +332,7 @@ void LastFmScrobbler::submitTrack(const SubmissionInfo& info)
 
 void LastFmScrobbler::joinThreads()
 {
-    if (m_Synchronous)
-    {
+    if (m_Synchronous) {
         return;
     }
 
@@ -403,4 +345,3 @@ void LastFmScrobbler::joinThreads()
     m_SendInfoThread.join();
     m_FinishPlayingThread.join();
 }
-

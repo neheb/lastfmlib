@@ -45,12 +45,12 @@ NowPlayingInfo::NowPlayingInfo(const std::wstring& artist, const std::wstring& t
 string NowPlayingInfo::getPostData() const
 {
     stringstream ss;
-    ss  << "&a=" << StringOperations::urlEncode(m_Artist)
-        << "&t=" << StringOperations::urlEncode(m_Track)
-        << "&b=" << StringOperations::urlEncode(m_Album)
-        << "&l=" << (m_TrackLengthInSecs > 0 ? StringOperations::getPostData(m_TrackLengthInSecs) : "")
-        << "&n=" << (m_TrackNr > 0 ? StringOperations::getPostData(m_TrackNr) : "")
-        << "&m=" << StringOperations::urlEncode(m_MusicBrainzId);
+    ss << "&a=" << StringOperations::urlEncode(m_Artist)
+       << "&t=" << StringOperations::urlEncode(m_Track)
+       << "&b=" << StringOperations::urlEncode(m_Album)
+       << "&l=" << (m_TrackLengthInSecs > 0 ? StringOperations::getPostData(m_TrackLengthInSecs) : "")
+       << "&n=" << (m_TrackNr > 0 ? StringOperations::getPostData(m_TrackNr) : "")
+       << "&m=" << StringOperations::urlEncode(m_MusicBrainzId);
 
     return ss.str();
 }

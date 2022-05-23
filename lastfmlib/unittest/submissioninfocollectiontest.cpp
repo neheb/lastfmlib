@@ -5,8 +5,8 @@
 #include <iostream>
 #include <stdexcept>
 
-using std::string;
 using std::logic_error;
+using std::string;
 
 TEST(SubmissionInfoCollectionTest, GetPostData)
 {
@@ -32,4 +32,3 @@ TEST(SubmissionInfoCollectionTest, GetPostData)
                       "&o[1]=U&r[1]=&l[1]=2&b[1]=An+Album2&n[1]=2&m[1]=";
     EXPECT_EQ(expected, collection.getPostData());
 }
-
