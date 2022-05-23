@@ -96,4 +96,4 @@ void utf8ToWideChar(const string& utf8String, wstring& wideString)
     wideString.resize(stringLength);
 }
 
-}
+} // namespace StringOperations
