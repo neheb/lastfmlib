@@ -24,67 +24,21 @@
 #define LAST_FM_EXCEPTIONS_H
 
 #include <stdexcept>
-#include <string>
-
-/** The Error class is the base class for all the exceptions
- */
-class Error : public std::exception {
-public:
-    /** Constructor
-     * \param message an std::string containing the error message
-     */
-    Error(const std::string& message) throw()
-    : std::exception()
-    , m_Message(message)
-    {
-    }
-
-    /** Destructor
-     */
-    virtual ~Error() throw()
-    {
-    }
-
-    /** what
-     * \return const char pointer containing an error message
-     */
-    virtual const char* what() const throw()
-    {
-        return m_Message.c_str();
-    }
-
-private:
-    std::string m_Message;
-};
 
 /** The ConnectionError class is an exception class that inherits from
  * std::exception. It is used to indicate that no connection could be
  * established.
  */
-class ConnectionError : public Error {
-public:
-    /** Constructor
-     * \param message an std::string containing the error message
-     */
-    ConnectionError(const std::string& message) throw()
-    : Error(message)
-    {
-    }
+class ConnectionError : public std::runtime_error {
+    using std::runtime_error::runtime_error;
 };
 
 /** The BaddSessionError class is an exception class that inherits from
  * std::exception. It is used to indicate that the current session has
  * become invalid due to another connection on the same account
  */
-class BadSessionError : public Error {
-public:
-    /** Constructor
-     * \param message an std::string containing the error message
-     */
-    BadSessionError(const std::string& message) throw()
-    : Error(message)
-    {
-    }
+class BadSessionError : public std::runtime_error {
+    using std::runtime_error::runtime_error;
 };
 
 #endif
