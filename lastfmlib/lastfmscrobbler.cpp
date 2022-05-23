@@ -207,7 +207,7 @@ bool LastFmScrobbler::canReconnect()
 
 void* LastFmScrobbler::authenticateThread(void* pInstance)
 {
-    LastFmScrobbler* pScrobbler = reinterpret_cast<LastFmScrobbler*>(pInstance);
+    auto pScrobbler = reinterpret_cast<LastFmScrobbler*>(pInstance);
     Log::info("Authenticate thread started");
 
     pScrobbler->authenticateNow();
@@ -223,7 +223,7 @@ void* LastFmScrobbler::authenticateThread(void* pInstance)
 
 void* LastFmScrobbler::sendInfoThread(void* pInstance)
 {
-    LastFmScrobbler* pScrobbler = reinterpret_cast<LastFmScrobbler*>(pInstance);
+    auto pScrobbler = reinterpret_cast<LastFmScrobbler*>(pInstance);
     Log::debug("sendInfo thread started");
 
     {
@@ -250,7 +250,7 @@ void* LastFmScrobbler::sendInfoThread(void* pInstance)
 
 void* LastFmScrobbler::finishPlayingThread(void* pInstance)
 {
-    LastFmScrobbler* pScrobbler = reinterpret_cast<LastFmScrobbler*>(pInstance);
+    auto pScrobbler = reinterpret_cast<LastFmScrobbler*>(pInstance);
     Log::debug("finishPlaying thread started");
 
     {
