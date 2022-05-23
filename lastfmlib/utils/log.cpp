@@ -30,19 +30,11 @@
 
 namespace Log {
 
-#ifndef WIN32
-static const std::string red = "\033[31m";
-static const std::string green = "\033[32m";
-static const std::string yellow = "\033[33m";
-static const std::string purple = "\033[35m";
-static const std::string standard = "\033[39m";
-#else
-static const std::string red;
-static const std::string green;
-static const std::string yellow;
-static const std::string purple;
-static const std::string standard;
-#endif
+static constexpr std::string_view red = "\033[31m";
+static constexpr std::string_view green = "\033[32m";
+static constexpr std::string_view yellow = "\033[33m";
+static constexpr std::string_view purple = "\033[35m";
+static constexpr std::string_view standard = "\033[39m";
 
 static inline void outputInfo([[maybe_unused]] const std::string& message)
 {
