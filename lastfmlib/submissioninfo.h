@@ -41,9 +41,9 @@ public:
     /** \brief Default constructor */
     SubmissionInfo();
     /** \brief Constructor that sets artist ,track and optionally the time the track started playing */
-    SubmissionInfo(const std::string& artist, const std::string& title, time_t timeStarted = -1);
+    SubmissionInfo(const std::string& artist, const std::string& track, time_t timeStarted = -1);
     /** \brief Constructor that sets artist ,track (unicode) and optionally the time the track started playing */
-    SubmissionInfo(const std::wstring& artist, const std::wstring& title, time_t timeStarted = -1);
+    SubmissionInfo(const std::wstring& artist, const std::wstring& track, time_t timeStarted = -1);
 
     /** \brief returns the postdata needed to submit the info to Last.fm, used by LastFmClient */
     [[nodiscard]] std::string getPostData(int index = 0) const;
