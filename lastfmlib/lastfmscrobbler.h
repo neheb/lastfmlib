@@ -116,7 +116,7 @@ private:
     void authenticateIfNecessary();
     void authenticateNow();
     bool trackCanBeCommited(const SubmissionInfo& info);
-    [[nodiscard]] bool canReconnect();
+    [[nodiscard]] bool canReconnect() const;
     void submitTrack(const SubmissionInfo& info);
     void setNowPlaying();
 

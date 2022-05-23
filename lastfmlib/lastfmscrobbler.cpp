@@ -196,7 +196,7 @@ void LastFmScrobbler::authenticateNow()
     }
 }
 
-bool LastFmScrobbler::canReconnect()
+bool LastFmScrobbler::canReconnect() const
 {
     time_t curTime = time(nullptr);
     time_t timeSinceLastConnectionAttempt = curTime - m_LastConnectionAttempt;

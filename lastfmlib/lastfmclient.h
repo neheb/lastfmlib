@@ -96,11 +96,11 @@ public:
     void setProxy(const std::string& server, uint32_t port, const std::string& username = "", const std::string& password = "");
 
 private:
-    std::string createRequestString(const std::string& user, const std::string& pass);
-    std::string createNowPlayingString(const NowPlayingInfo& info);
-    std::string createSubmissionString(const SubmissionInfo& info);
-    std::string createSubmissionString(const SubmissionInfoCollection& infoCollection);
-    void throwOnInvalidSession();
+    std::string createRequestString(const std::string& user, const std::string& pass) const;
+    std::string createNowPlayingString(const NowPlayingInfo& info) const;
+    std::string createSubmissionString(const SubmissionInfo& info) const;
+    std::string createSubmissionString(const SubmissionInfoCollection& infoCollection) const;
+    void throwOnInvalidSession() const;
     void submit(const std::string& postData);
 
     UrlClient m_UrlClient;
