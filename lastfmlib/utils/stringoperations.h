@@ -24,7 +24,6 @@
 
 #include <algorithm>
 #include <cwchar>
-#include <iostream>
 #include <stdexcept>
 
 namespace StringOperations {
