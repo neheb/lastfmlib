@@ -97,7 +97,7 @@ public:
     void setProxy(const std::string& server, uint32_t port, const std::string& username = "", const std::string& password = "");
 
 protected:
-    LastFmScrobbler(bool synchronous);
+    explicit LastFmScrobbler(bool synchronous);
     LastFmClient* m_pLastFmClient;
     /** \brief Last time a connection attempt was made */
     time_t m_LastConnectionAttempt {};
