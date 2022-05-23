@@ -162,7 +162,7 @@ void LastFmClient::setProxy(const std::string& server, uint32_t port, const std:
 
 string LastFmClient::createRequestString(const string& user, const string& pass)
 {
-    time_t timestamp = time(0);
+    time_t timestamp = time(nullptr);
 
     stringstream request;
     request << "http://post.audioscrobbler.com/?hs=true&p=1.2"
