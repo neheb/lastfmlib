@@ -38,7 +38,7 @@ TEST(SubmissionInfoTest, GetPostDataUtf8)
                "&o[0]=L12345&r[0]=S&l[0]=42&b[0]=An+Album&n[0]=4&m[0]=";
     EXPECT_EQ(expected, info.getPostData());
 
-    info.setSource(Unknown);
+    info.setSource(UnknownSource);
     info.setRating(Skip);
     expected = "&a[1]=The+Artist&t[1]=Trackname&i[1]=100"
                "&o[1]=U&r[1]=S&l[1]=42&b[1]=An+Album&n[1]=4&m[1]=";
@@ -75,7 +75,7 @@ TEST(SubmissionInfoTest, GetPostDataWidechar)
                "&o[0]=L12345&r[0]=S&l[0]=42&b[0]=An+Album&n[0]=4&m[0]=";
     EXPECT_EQ(expected, info.getPostData());
 
-    info.setSource(Unknown);
+    info.setSource(UnknownSource);
     info.setRating(Skip);
     expected = "&a[1]=The+Artist&t[1]=Trackname&i[1]=100"
                "&o[1]=U&r[1]=S&l[1]=42&b[1]=An+Album&n[1]=4&m[1]=";

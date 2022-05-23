@@ -20,7 +20,7 @@ TEST(SubmissionInfoCollectionTest, GetPostData)
     info2.setAlbum("An Album2");
     info2.setTrackLength(2);
     info2.setTrackNr(2);
-    info2.setSource(Unknown);
+    info2.setSource(UnknownSource);
 
     SubmissionInfoCollection collection;
     collection.addInfo(info1);
