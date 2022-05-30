@@ -61,6 +61,9 @@ public:
     /** Destructor */
     virtual ~LastFmScrobbler();
 
+    LastFmScrobbler(const LastFmScrobbler&) = delete;
+    LastFmScrobbler& operator=(const LastFmScrobbler&) = delete;
+
     /** Authenticate with the Last.fm server, this must be called before
      * you can start comitting tracks
      */

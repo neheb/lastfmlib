@@ -11,7 +11,7 @@ using namespace std;
 
 class LastFmScrobblerTester : public LastFmScrobbler {
 public:
-    LastFmScrobblerTester(bool synchronous)
+    explicit LastFmScrobblerTester(bool synchronous)
     : LastFmScrobbler(synchronous)
     {
         pMock = std::make_shared<LastFmClientMock>();

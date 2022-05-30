@@ -23,6 +23,8 @@ class UrlClient {
 public:
     UrlClient();
     ~UrlClient();
+    UrlClient(const UrlClient&) = delete;
+    UrlClient& operator=(const UrlClient&) = delete;
 
     void setProxy(const std::string& server, uint32_t port = 8080, const std::string& username = "", const std::string& password = "");
 
