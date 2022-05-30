@@ -43,7 +43,7 @@ public:
      * a thread and return immediately (prevents long blocking methods in
      * case of network problems)
      */
-    LastFmScrobbler(const std::string& user, const std::string& pass, bool hashedPass, bool synchronous);
+    LastFmScrobbler(std::string user, const std::string& pass, bool hashedPass, bool synchronous);
 
     /** Constructor using your own client identifier (see http://www.last.fm/api/submissions#1.1)
      * \param clientIdentifier the Last.fm client identifier
@@ -55,7 +55,7 @@ public:
      * a thread and return immediately (prevents long blocking methods in
      * case of network problems)
      */
-    LastFmScrobbler(const std::string& clientIdentifier, const std::string& clientVersion, const std::string& user, const std::string& pass, bool hashedPass, bool synchronous);
+    LastFmScrobbler(const std::string& clientIdentifier, const std::string& clientVersion, std::string user, const std::string& pass, bool hashedPass, bool synchronous);
 
     /** Destructor */
     virtual ~LastFmScrobbler();

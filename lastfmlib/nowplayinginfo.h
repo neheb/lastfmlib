@@ -35,7 +35,7 @@ public:
     /** \brief Default constructor */
     NowPlayingInfo();
     /** \brief Constructor that sets artist and track */
-    NowPlayingInfo(const std::string& artist, const std::string& track);
+    NowPlayingInfo(std::string artist, std::string track);
     /** \brief Constructor that sets artist and track (unicode) */
     NowPlayingInfo(const std::wstring& artist, const std::wstring& track);
 

@@ -43,9 +43,9 @@ LastFmClient::LastFmClient()
 {
 }
 
-LastFmClient::LastFmClient(const std::string& clientIdentifier, const std::string& clientVersion)
-: m_ClientIdentifier(clientIdentifier)
-, m_ClientVersion(clientVersion)
+LastFmClient::LastFmClient(std::string clientIdentifier, std::string clientVersion)
+: m_ClientIdentifier(std::move(clientIdentifier))
+, m_ClientVersion(std::move(clientVersion))
 {
 }
 

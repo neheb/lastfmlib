@@ -26,9 +26,9 @@ NowPlayingInfo::NowPlayingInfo()
 {
 }
 
-NowPlayingInfo::NowPlayingInfo(const std::string& artist, const std::string& track)
-: m_Artist(artist)
-, m_Track(track)
+NowPlayingInfo::NowPlayingInfo(std::string artist, std::string track)
+: m_Artist(std::move(artist))
+, m_Track(std::move(track))
 , m_TrackLengthInSecs(-1)
 , m_TrackNr(-1)
 {
