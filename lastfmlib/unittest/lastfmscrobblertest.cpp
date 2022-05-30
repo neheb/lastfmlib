@@ -14,7 +14,7 @@ public:
     LastFmScrobblerTester(bool synchronous)
     : LastFmScrobbler(synchronous)
     {
-        pMock = new LastFmClientMock();
+        pMock = std::make_shared<LastFmClientMock>();
         m_pLastFmClient = pMock;
     }
 
@@ -43,7 +43,7 @@ public:
         m_SendInfoThread.join();
     }
 
-    LastFmClientMock* pMock;
+    std::shared_ptr<LastFmClientMock> pMock;
 };
 
 TEST(LastFmScrobblerTest, LastFmScrobbler)

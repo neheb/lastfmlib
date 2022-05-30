@@ -24,6 +24,7 @@
 #define LAST_FM_SCROBBLER_H
 
 #include <ctime>
+#include <memory>
 #include <string>
 
 #include "lastfmclient.h"
@@ -55,7 +56,7 @@ public:
      * a thread and return immediately (prevents long blocking methods in
      * case of network problems)
      */
-    LastFmScrobbler(const std::string& clientIdentifier, const std::string& clientVersion, std::string user, const std::string& pass, bool hashedPass, bool synchronous);
+    LastFmScrobbler(std::string clientIdentifier, std::string clientVersion, std::string user, const std::string& pass, bool hashedPass, bool synchronous);
 
     /** Destructor */
     virtual ~LastFmScrobbler();
@@ -98,7 +99,7 @@ public:
 
 protected:
     explicit LastFmScrobbler(bool synchronous);
-    LastFmClient* m_pLastFmClient;
+    std::shared_ptr<LastFmClient> m_pLastFmClient;
     /** \brief Last time a connection attempt was made */
     time_t m_LastConnectionAttempt {};
     /** \brief The time that the current track has been played, is set on pause */
