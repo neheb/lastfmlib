@@ -47,7 +47,7 @@ public:
      * \param clientIdentifier an std::string containing the Last.fm client identifier
      * \param clientVersion an std::string containing the Last.fm client version
      */
-    LastFmClient(const std::string& clientIdentifier, const std::string& clientVersion);
+    LastFmClient(std::string clientIdentifier, std::string clientVersion);
 
     virtual ~LastFmClient() { }
 
