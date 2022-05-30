@@ -120,7 +120,7 @@ int NowPlayingInfo::getTrackNr() const
     return m_TrackNr;
 }
 
-const std::string& NowPlayingInfo::getMusicBrainzId()
+const std::string& NowPlayingInfo::getMusicBrainzId() const
 {
     return m_MusicBrainzId;
 }
