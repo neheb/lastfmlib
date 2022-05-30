@@ -77,9 +77,9 @@ public:
     /** \brief returns the track number */
     [[nodiscard]] int getTrackNr() const;
     /** \brief returns Music Brainz Id */
-    const std::string& getMusicBrainzId();
+    [[nodiscard]] const std::string& getMusicBrainzId() const;
 
-protected:
+private:
     std::string m_Artist; /**< \brief the artist */
     std::string m_Track; /**< \brief the track title */
     std::string m_Album; /**< \brief the album */
