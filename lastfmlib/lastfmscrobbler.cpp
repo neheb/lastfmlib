@@ -33,7 +33,7 @@ static const time_t MIN_SECS_BETWEEN_CONNECT = 60;
 static const time_t MAX_SECS_BETWEEN_CONNECT = 7200;
 
 LastFmScrobbler::LastFmScrobbler(string user, const string& pass, bool hashedPass, bool synchronous)
-: m_pLastFmClient(new LastFmClient())
+: m_pLastFmClient(std::make_shared<LastFmClient>())
 , m_AuthenticateThread(LastFmScrobbler::authenticateThread, this)
 , m_SendInfoThread(LastFmScrobbler::sendInfoThread, this)
 , m_FinishPlayingThread(LastFmScrobbler::finishPlayingThread, this)
@@ -46,8 +46,8 @@ LastFmScrobbler::LastFmScrobbler(string user, const string& pass, bool hashedPas
     }
 }
 
-LastFmScrobbler::LastFmScrobbler(const string& clientIdentifier, const string& clientVersion, string user, const string& pass, bool hashedPass, bool synchronous)
-: m_pLastFmClient(new LastFmClient(clientIdentifier, clientVersion))
+LastFmScrobbler::LastFmScrobbler(std::string clientIdentifier, std::string clientVersion, string user, const string& pass, bool hashedPass, bool synchronous)
+: m_pLastFmClient(std::make_shared<LastFmClient>(std::move(clientIdentifier), std::move(clientVersion)))
 , m_AuthenticateThread(LastFmScrobbler::authenticateThread, this)
 , m_SendInfoThread(LastFmScrobbler::sendInfoThread, this)
 , m_FinishPlayingThread(LastFmScrobbler::finishPlayingThread, this)
@@ -61,8 +61,7 @@ LastFmScrobbler::LastFmScrobbler(const string& clientIdentifier, const string& c
 }
 
 LastFmScrobbler::LastFmScrobbler(bool synchronous)
-: m_pLastFmClient(nullptr)
-, m_AuthenticateThread(LastFmScrobbler::authenticateThread, this)
+: m_AuthenticateThread(LastFmScrobbler::authenticateThread, this)
 , m_SendInfoThread(LastFmScrobbler::sendInfoThread, this)
 , m_FinishPlayingThread(LastFmScrobbler::finishPlayingThread, this)
 , m_Synchronous(synchronous)
@@ -72,7 +71,6 @@ LastFmScrobbler::LastFmScrobbler(bool synchronous)
 LastFmScrobbler::~LastFmScrobbler()
 {
     joinThreads();
-    delete m_pLastFmClient;
 }
 
 void LastFmScrobbler::authenticate()
