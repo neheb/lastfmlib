@@ -28,11 +28,11 @@
 #include <memory>
 #include <mutex>
 #include <string>
+#include <thread>
 
 #include "lastfmclient.h"
 #include "submissioninfo.h"
 #include "submissioninfocollection.h"
-#include "utils/thread.h"
 
 class LastFmScrobbler {
 public:
@@ -58,8 +58,7 @@ public:
      */
     LastFmScrobbler(std::string clientIdentifier, std::string clientVersion, std::string user, const std::string& pass, bool hashedPass, bool synchronous);
 
-    /** Destructor */
-    virtual ~LastFmScrobbler();
+    ~LastFmScrobbler();
 
     LastFmScrobbler(const LastFmScrobbler&) = delete;
     LastFmScrobbler& operator=(const LastFmScrobbler&) = delete;
@@ -110,11 +109,11 @@ protected:
     /** \brief The time that the current track was resumed after a pause */
     time_t m_TrackResumeTime {};
     /** \brief Thread handle of authentication thread (protected for testing) */
-    utils::Thread m_AuthenticateThread;
+    std::thread m_AuthenticateThread;
     /** \brief Thread handle of sendinfo thread (protected for testing) */
-    utils::Thread m_SendInfoThread;
+    std::thread m_SendInfoThread;
     /** \brief Thread handle of finishPlaying thread (protected for testing) */
-    utils::Thread m_FinishPlayingThread;
+    std::thread m_FinishPlayingThread;
 
 private:
     void authenticateIfNecessary();
@@ -124,11 +123,9 @@ private:
     void submitTrack(const SubmissionInfo& info);
     void setNowPlaying();
 
-    void joinThreads();
-
-    static void* authenticateThread(void* pInstance);
-    static void* sendInfoThread(void* pInstance);
-    static void* finishPlayingThread(void* pInstance);
+    void authenticateThread();
+    void sendInfoThread();
+    void finishPlayingThread();
 
     SubmissionInfo m_PreviousTrackInfo;
     SubmissionInfo m_CurrentTrackInfo;
