@@ -27,10 +27,7 @@ lastfmlib = library('lastfmlib',
   'lastfmlib/submissioninfo.cpp',
   'lastfmlib/lastfmclient.cpp',
   'lastfmlib/md5/md5.c',
-  'lastfmlib/utils/condition.cpp',
   'lastfmlib/utils/log.cpp',
-  'lastfmlib/utils/mutex.cpp',
-  'lastfmlib/utils/scopedlock.cpp',
   'lastfmlib/utils/stringoperations.cpp',
   'lastfmlib/utils/thread.cpp',
    dependencies : [ curl_dep, thread_dep ],
@@ -54,10 +51,7 @@ install_headers(
 )
 
 install_headers(
-  'lastfmlib/utils/condition.h',
   'lastfmlib/utils/log.h',
-  'lastfmlib/utils/mutex.h',
-  'lastfmlib/utils/scopedlock.h',
   'lastfmlib/utils/thread.h',
   subdir : 'lastfmlib/utils'
 )

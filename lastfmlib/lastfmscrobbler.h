@@ -23,15 +23,15 @@
 #ifndef LAST_FM_SCROBBLER_H
 #define LAST_FM_SCROBBLER_H
 
+#include <condition_variable>
 #include <ctime>
 #include <memory>
+#include <mutex>
 #include <string>
 
 #include "lastfmclient.h"
 #include "submissioninfo.h"
 #include "submissioninfocollection.h"
-#include "utils/condition.h"
-#include "utils/mutex.h"
 #include "utils/thread.h"
 
 class LastFmScrobbler {
@@ -136,9 +136,9 @@ private:
 
     bool m_Authenticated {};
     int m_HardConnectionFailureCount {};
-    utils::Condition m_AuthenticatedCondition;
-    utils::Mutex m_AuthenticatedMutex;
-    utils::Mutex m_TrackInfosMutex;
+    std::condition_variable m_AuthenticatedCondition;
+    std::mutex m_AuthenticatedMutex;
+    std::mutex m_TrackInfosMutex;
 
     std::string m_Username;
     std::string m_Password;
