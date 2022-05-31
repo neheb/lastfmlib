@@ -17,7 +17,6 @@
 #include "lastfmscrobbler.h"
 
 #include "utils/log.h"
-#include "utils/scopedlock.h"
 
 #include <algorithm>
 #include <csignal>
@@ -193,8 +192,8 @@ void* LastFmScrobbler::authenticateThread(void* pInstance)
     pScrobbler->authenticateNow();
 
     {
-        ScopedLock lock(pScrobbler->m_AuthenticatedMutex);
-        pScrobbler->m_AuthenticatedCondition.broadcast();
+        auto lock = std::scoped_lock(pScrobbler->m_AuthenticatedMutex);
+        pScrobbler->m_AuthenticatedCondition.notify_all();
     }
 
     Log::info("Authenticate thread finished");
@@ -207,9 +206,9 @@ void* LastFmScrobbler::sendInfoThread(void* pInstance)
     Log::debug("sendInfo thread started");
 
     {
-        ScopedLock lock(pScrobbler->m_AuthenticatedMutex);
+        auto lock = std::unique_lock(pScrobbler->m_AuthenticatedMutex);
         if (!pScrobbler->m_Authenticated) {
-            if (!pScrobbler->m_AuthenticatedCondition.wait(pScrobbler->m_AuthenticatedMutex, 4000)) {
+            if (!pScrobbler->m_AuthenticatedCondition.wait_for(lock, 4ms, [=] { return !!pScrobbler->m_Authenticated; })) {
                 Log::info("send info terminated because no connection");
                 pScrobbler->submitTrack(pScrobbler->m_PreviousTrackInfo);
                 return nullptr;
@@ -234,16 +233,14 @@ void* LastFmScrobbler::finishPlayingThread(void* pInstance)
     Log::debug("finishPlaying thread started");
 
     {
-        ScopedLock lock(pScrobbler->m_AuthenticatedMutex);
+        auto lock = std::scoped_lock(pScrobbler->m_AuthenticatedMutex);
         if (!pScrobbler->m_Authenticated) {
             // Program is probalby cleaning up, dont't try to start authentication
             return nullptr;
         }
     }
 
-    if (pScrobbler->m_Authenticated) {
-        pScrobbler->submitTrack(pScrobbler->m_PreviousTrackInfo);
-    }
+    pScrobbler->submitTrack(pScrobbler->m_PreviousTrackInfo);
 
     Log::debug("finishPlaying thread finished");
     return nullptr;
@@ -280,13 +277,13 @@ void LastFmScrobbler::submitTrack(const SubmissionInfo& info)
     }
 
     {
-        ScopedLock lock(m_TrackInfosMutex);
+        auto lock = std::scoped_lock(m_TrackInfosMutex);
         m_BufferedTrackInfos.addInfo(info);
     }
 
     SubmissionInfoCollection tracksToSubmit;
     {
-        ScopedLock lock(m_TrackInfosMutex);
+        auto lock = std::scoped_lock(m_TrackInfosMutex);
         tracksToSubmit = m_BufferedTrackInfos;
     }
 
@@ -319,8 +316,8 @@ void LastFmScrobbler::joinThreads()
     }
 
     {
-        ScopedLock lock(m_AuthenticatedMutex);
-        m_AuthenticatedCondition.broadcast();
+        auto lock = std::scoped_lock(m_AuthenticatedMutex);
+        m_AuthenticatedCondition.notify_all();
     }
 
     m_AuthenticateThread.join();
