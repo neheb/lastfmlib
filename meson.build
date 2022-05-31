@@ -29,7 +29,6 @@ lastfmlib = library('lastfmlib',
   'lastfmlib/md5/md5.c',
   'lastfmlib/utils/log.cpp',
   'lastfmlib/utils/stringoperations.cpp',
-  'lastfmlib/utils/thread.cpp',
    dependencies : [ curl_dep, thread_dep ],
    include_directories: lastfm_inc,
    install : true,
@@ -52,7 +51,6 @@ install_headers(
 
 install_headers(
   'lastfmlib/utils/log.h',
-  'lastfmlib/utils/thread.h',
   subdir : 'lastfmlib/utils'
 )
 

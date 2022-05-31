@@ -24,7 +24,6 @@
 #include <stdexcept>
 
 using namespace std;
-using namespace utils;
 
 static const time_t MIN_SECONDS_TO_SUBMIT = 240;
 static const time_t MIN_TRACK_LENGTH_TO_SUBMIT = 30;
@@ -33,9 +32,6 @@ static const time_t MAX_SECS_BETWEEN_CONNECT = 7200;
 
 LastFmScrobbler::LastFmScrobbler(string user, const string& pass, bool hashedPass, bool synchronous)
 : m_pLastFmClient(std::make_shared<LastFmClient>())
-, m_AuthenticateThread(LastFmScrobbler::authenticateThread, this)
-, m_SendInfoThread(LastFmScrobbler::sendInfoThread, this)
-, m_FinishPlayingThread(LastFmScrobbler::finishPlayingThread, this)
 , m_Username(std::move(user))
 , m_Password(pass)
 , m_Synchronous(synchronous)
@@ -47,9 +43,6 @@ LastFmScrobbler::LastFmScrobbler(string user, const string& pass, bool hashedPas
 
 LastFmScrobbler::LastFmScrobbler(std::string clientIdentifier, std::string clientVersion, string user, const string& pass, bool hashedPass, bool synchronous)
 : m_pLastFmClient(std::make_shared<LastFmClient>(std::move(clientIdentifier), std::move(clientVersion)))
-, m_AuthenticateThread(LastFmScrobbler::authenticateThread, this)
-, m_SendInfoThread(LastFmScrobbler::sendInfoThread, this)
-, m_FinishPlayingThread(LastFmScrobbler::finishPlayingThread, this)
 , m_Username(std::move(user))
 , m_Password(pass)
 , m_Synchronous(synchronous)
@@ -60,16 +53,18 @@ LastFmScrobbler::LastFmScrobbler(std::string clientIdentifier, std::string clien
 }
 
 LastFmScrobbler::LastFmScrobbler(bool synchronous)
-: m_AuthenticateThread(LastFmScrobbler::authenticateThread, this)
-, m_SendInfoThread(LastFmScrobbler::sendInfoThread, this)
-, m_FinishPlayingThread(LastFmScrobbler::finishPlayingThread, this)
-, m_Synchronous(synchronous)
+: m_Synchronous(synchronous)
 {
 }
 
 LastFmScrobbler::~LastFmScrobbler()
 {
-    joinThreads();
+    if (m_FinishPlayingThread.joinable())
+        m_FinishPlayingThread.join();
+    if (m_SendInfoThread.joinable())
+        m_SendInfoThread.join();
+    if (m_AuthenticateThread.joinable())
+        m_AuthenticateThread.join();
 }
 
 void LastFmScrobbler::authenticate()
@@ -100,7 +95,9 @@ void LastFmScrobbler::startedPlaying(const SubmissionInfo& info)
             setNowPlaying();
         }
     } else {
-        m_SendInfoThread.start();
+        if (m_SendInfoThread.joinable())
+            m_SendInfoThread.join();
+        m_SendInfoThread = std::thread([this] { sendInfoThread(); });
     }
 }
 
@@ -120,7 +117,9 @@ void LastFmScrobbler::finishedPlaying()
     if (m_Synchronous) {
         submitTrack(m_CurrentTrackInfo);
     } else {
-        m_FinishPlayingThread.start();
+        if (m_FinishPlayingThread.joinable())
+            m_FinishPlayingThread.join();
+        m_FinishPlayingThread = std::thread([this] { finishPlayingThread(); });
     }
 }
 
@@ -151,11 +150,13 @@ bool LastFmScrobbler::trackCanBeCommited(const SubmissionInfo& info)
 
 void LastFmScrobbler::authenticateIfNecessary()
 {
-    if (!m_Authenticated && !m_AuthenticateThread.isRunning() && canReconnect()) {
+    if (!m_Authenticated && !m_AuthenticateThread.joinable() && canReconnect()) {
         if (m_Synchronous) {
             authenticateNow();
         } else {
-            m_AuthenticateThread.start();
+            if (m_AuthenticateThread.joinable())
+                m_AuthenticateThread.join();
+            m_AuthenticateThread = std::thread([this] { authenticateThread(); });
         }
     }
 }
@@ -184,66 +185,58 @@ bool LastFmScrobbler::canReconnect() const
     return timeSinceLastConnectionAttempt > connectionDelay;
 }
 
-void* LastFmScrobbler::authenticateThread(void* pInstance)
+void LastFmScrobbler::authenticateThread()
 {
-    auto pScrobbler = reinterpret_cast<LastFmScrobbler*>(pInstance);
     Log::info("Authenticate thread started");
 
-    pScrobbler->authenticateNow();
+    authenticateNow();
 
     {
-        auto lock = std::scoped_lock(pScrobbler->m_AuthenticatedMutex);
-        pScrobbler->m_AuthenticatedCondition.notify_all();
+        auto lock = std::scoped_lock(m_AuthenticatedMutex);
+        m_AuthenticatedCondition.notify_all();
     }
 
     Log::info("Authenticate thread finished");
-    return nullptr;
 }
 
-void* LastFmScrobbler::sendInfoThread(void* pInstance)
+void LastFmScrobbler::sendInfoThread()
 {
-    auto pScrobbler = reinterpret_cast<LastFmScrobbler*>(pInstance);
     Log::debug("sendInfo thread started");
 
     {
-        auto lock = std::unique_lock(pScrobbler->m_AuthenticatedMutex);
-        if (!pScrobbler->m_Authenticated) {
-            if (!pScrobbler->m_AuthenticatedCondition.wait_for(lock, 4ms, [=] { return !!pScrobbler->m_Authenticated; })) {
+        auto lock = std::unique_lock(m_AuthenticatedMutex);
+        if (!m_Authenticated) {
+            if (!m_AuthenticatedCondition.wait_for(lock, 4ms, [this] { return m_Authenticated; })) {
                 Log::info("send info terminated because no connection");
-                pScrobbler->submitTrack(pScrobbler->m_PreviousTrackInfo);
-                return nullptr;
+                submitTrack(m_PreviousTrackInfo);
+                return;
             }
         }
     }
 
-    if (pScrobbler->m_Authenticated) {
-        pScrobbler->submitTrack(pScrobbler->m_PreviousTrackInfo);
-        if (!pScrobbler->m_CommitOnly) {
-            pScrobbler->setNowPlaying();
-        }
+    submitTrack(m_PreviousTrackInfo);
+    if (!m_CommitOnly) {
+        setNowPlaying();
     }
 
     Log::debug("sendInfo thread finished");
-    return nullptr;
 }
 
-void* LastFmScrobbler::finishPlayingThread(void* pInstance)
+void LastFmScrobbler::finishPlayingThread()
 {
-    auto pScrobbler = reinterpret_cast<LastFmScrobbler*>(pInstance);
     Log::debug("finishPlaying thread started");
 
     {
-        auto lock = std::scoped_lock(pScrobbler->m_AuthenticatedMutex);
-        if (!pScrobbler->m_Authenticated) {
+        auto lock = std::scoped_lock(m_AuthenticatedMutex);
+        if (!m_Authenticated) {
             // Program is probalby cleaning up, dont't try to start authentication
-            return nullptr;
+            return;
         }
     }
 
-    pScrobbler->submitTrack(pScrobbler->m_PreviousTrackInfo);
+    submitTrack(m_PreviousTrackInfo);
 
     Log::debug("finishPlaying thread finished");
-    return nullptr;
 }
 
 void LastFmScrobbler::setNowPlaying()
@@ -307,20 +300,4 @@ void LastFmScrobbler::submitTrack(const SubmissionInfo& info)
 
     m_TrackPlayTime = 0;
     m_TrackResumeTime = m_CurrentTrackInfo.getTimeStarted();
-}
-
-void LastFmScrobbler::joinThreads()
-{
-    if (m_Synchronous) {
-        return;
-    }
-
-    {
-        auto lock = std::scoped_lock(m_AuthenticatedMutex);
-        m_AuthenticatedCondition.notify_all();
-    }
-
-    m_AuthenticateThread.join();
-    m_SendInfoThread.join();
-    m_FinishPlayingThread.join();
 }
