@@ -27,40 +27,21 @@
 #include <stdexcept>
 #include <iostream>
 
-namespace StringOperations
+namespace StringOperations {
+void replace(std::string& aString, const std::string& toSearch, const std::string& toReplace);
+void dos2unix(std::string& aString);
+std::string urlEncode(const std::string& aString);
+std::vector<std::string> tokenize(const std::string& str, const std::string& delimiter);
+void wideCharToUtf8(const std::wstring& wideString, std::string& utf8String);
+void utf8ToWideChar(const std::string& utf8String, std::wstring& wideString);
+
+template <typename T>
+inline std::string getPostData(T numeric)
 {
-    void lowercase(std::string& aString);
-    void trim(std::string& aString);
-    std::string trim(const std::string& aString);
-    void replace(std::string& aString, const std::string& toSearch, const std::string& toReplace);
-    void dos2unix(std::string& aString);
-    std::string urlEncode(const std::string& aString);
-    std::vector<std::string> tokenize(const std::string& str, const std::string& delimiter);
-    void wideCharToUtf8(const std::wstring& wideString, std::string& utf8String);
-    void utf8ToWideChar(const std::string& utf8String, std::wstring& wideString);
-
-    template<typename T>
-    inline void toNumeric(const std::string& aString, T& numeric)
-    {
-        std::stringstream ss(aString);
-        ss >> numeric;
-    }
-
-    template<typename T>
-    inline std::string getPostData(T& numeric)
-    {
-        std::stringstream ss;
-        ss << numeric;
-        return ss.str();
-    }
-
-    template<typename T>
-    inline std::wstring toWstring(T& numeric)
-    {
-        std::wstringstream ss;
-        ss << numeric;
-        return ss.str();
-    }
+    std::stringstream ss;
+    ss << numeric;
+    return ss.str();
+}
 }
 
 #endif

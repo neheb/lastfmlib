@@ -28,7 +28,6 @@ public:
     void setProxy(const std::string& server, uint32_t port = 8080, const std::string& username = "", const std::string& password = "");
 
     void get(const std::string& url, std::string& response);
-    void getBinary(const std::string& url, void* callback, void* parameter);
     void post(const std::string& url, const std::string& data, std::string& response);
 
 private:

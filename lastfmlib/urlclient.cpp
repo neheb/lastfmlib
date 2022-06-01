@@ -105,27 +105,6 @@ void UrlClient::get(const string& url, string& response)
     }
 }
 
-void UrlClient::getBinary(const string& url, void* callback, void* parameter)
-{
-    CURL* curlHandle = curl_easy_init();
-    assert(curlHandle);
-
-    curl_easy_setopt(curlHandle, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, callback);
-    curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, parameter);
-    curl_easy_setopt(curlHandle, CURLOPT_FAILONERROR, 1);
-    curl_easy_setopt(curlHandle, CURLOPT_CONNECTTIMEOUT, 5);
-    curl_easy_setopt(curlHandle, CURLOPT_NOSIGNAL, 1);
-
-    CURLcode rc = curl_easy_perform(curlHandle);
-    curl_easy_cleanup(curlHandle);
-
-    if (CURLE_OK != rc)
-    {
-        throw std::logic_error("Failed to get " + url + ": " + curl_easy_strerror(rc));
-    }
-}
-
 void UrlClient::post(const string& url, const string& data, string& response)
 {
     CURL* curlHandle = curl_easy_init();
