@@ -2,7 +2,6 @@
 
 #include "lastfmlib/lastfmclient.h"
 #include "lastfmlib/lastfmscrobbler.h"
-#include "lastfmlib/lastfmscrobblerc.h"
 #include <ctime>
 #include <unistd.h>
 
