@@ -12,25 +12,6 @@ using std::vector;
 
 using namespace StringOperations;
 
-TEST(StringOperationsTest, LowerCase)
-{
-    string testString = "TESTSTRING";
-    lowercase(testString);
-    EXPECT_EQ("teststring", testString);
-
-    testString = "teststring";
-    lowercase(testString);
-    EXPECT_EQ("teststring", testString);
-
-    testString = "~!@#$%^&*()_1234567890-";
-    lowercase(testString);
-    EXPECT_EQ("~!@#$%^&*()_1234567890-", testString);
-
-    testString = "H_ell_O";
-    lowercase(testString);
-    EXPECT_EQ("h_ell_o", testString);
-}
-
 TEST(StringOperationsTest, Dos2Unix)
 {
     string testString = "abcde\r\nfgs\r\r\n";
@@ -80,27 +61,6 @@ TEST(StringOperationsTest, Tokenize)
     EXPECT_EQ("A_*_B_*_C", tokenized[0]);
 }
 
-TEST(StringOperationsTest, ToNumeric)
-{
-    int integer;
-    string numericString = "42";
-    toNumeric(numericString, integer);
-    EXPECT_EQ(42, integer);
-
-    numericString = "-42";
-    toNumeric(numericString, integer);
-    EXPECT_EQ(-42, integer);
-
-    float floatingPoint;
-    numericString = "42.0001";
-    toNumeric(numericString, floatingPoint);
-    EXPECT_FLOAT_EQ(42.0001f, floatingPoint);
-
-    numericString = "-42.0001";
-    toNumeric(numericString, floatingPoint);
-    EXPECT_FLOAT_EQ(-42.0001f, floatingPoint);
-}
-
 TEST(StringOperationsTest, ConvertToUtf8)
 {
     string utf8String;
@@ -125,23 +85,4 @@ TEST(StringOperationsTest, UrlEncode)
 {
     EXPECT_EQ("!%40%23%24%25%5e%26*()fsdkjh+", urlEncode("!@#$%^&*()fsdkjh "));
     EXPECT_EQ("Trentem%c3%b8ller", urlEncode("Trentemøller"));
-}
-
-TEST(StringOperationsTest, Trim)
-{
-    string s = "  a a  a ";
-    trim(s);
-    EXPECT_EQ("a a  a", s);
-
-    s = "  \r \n\t\r\n a \r\t\n a  a \t\t\t";
-    trim(s);
-    EXPECT_EQ("a \r\t\n a  a", s);
-
-    s = "";
-    trim(s);
-    EXPECT_EQ("", s);
-
-    s = " \r\n\t";
-    trim(s);
-    EXPECT_EQ("", s);
 }

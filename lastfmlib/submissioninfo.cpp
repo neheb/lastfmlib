@@ -23,46 +23,35 @@
 
 using namespace std;
 
+namespace {
 std::string sourceToString(TrackSource source, const std::string& recommendationKey)
 {
-    switch (source)
-    {
-        case UserChosen:
-            return "P";
-            break;
-        case NonPersonalizedBroadCast:
-            return "R";
-            break;
-        case PersonalizedRecommendation:
-            return "E";
-            break;
-        case Lastfm:
-            return "L" + recommendationKey;
-            break;
-        case UnknownSource:
-        default:
-            return "U";
+    switch (source) {
+    case UserChosen:
+        return "P";
+    case NonPersonalizedBroadCast:
+        return "R";
+    case PersonalizedRecommendation:
+        return "E";
+    case Lastfm:
+        return "L" + recommendationKey;
     }
+    return "U";
 }
 
 std::string ratingToString(TrackRating rating)
 {
-    switch (rating)
-    {
-        case Love:
-            return "L";
-            break;
-        case Ban:
-            return "B";
-            break;
-        case Skip:
-            return "S";
-            break;
-        case NoRating:
-        default:
-            return "";
+    switch (rating) {
+    case Love:
+        return "L";
+    case Ban:
+        return "B";
+    case Skip:
+        return "S";
     }
+    return "";
 }
+} // namespace
 
 SubmissionInfo::SubmissionInfo()
 : NowPlayingInfo()

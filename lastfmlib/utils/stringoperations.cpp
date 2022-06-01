@@ -22,53 +22,6 @@ using namespace std;
 namespace StringOperations
 {
 
-class ToLower
-{
-public:
-    char operator() (char c) const
-    {
-        return tolower(c);
-    }
-};
-
-void lowercase(string& aString)
-{
-    transform(aString.begin(), aString.end(), aString.begin(), ToLower());
-}
-
-void trim(std::string& aString)
-{
-    size_t begin    = 0;
-    size_t end      = aString.size() - 1;
-    
-    while ( aString[begin] == ' '  || aString[begin] == '\t'
-         || aString[begin] == '\r' || aString[begin] == '\n')
-    {
-        ++begin;
-
-        if (begin == aString.size())
-            break;
-    }
-
-    if (begin == aString.size())
-        aString = "";
-
-    while ( aString[end] == ' '  || aString[end] == '\t'
-         || aString[end] == '\r' || aString[end] == '\n')
-    {
-        --end;
-    }
-
-    aString = begin > end ? "" : aString.substr(begin, ++end - begin);
-}
-
-std::string trim(const std::string& aString)
-{
-    string trimmed = aString;
-    trim(trimmed);
-    return trimmed;
-}
-
 void replace(std::string& aString, const std::string& toSearch, const std::string& toReplace)
 {
     size_t startPos = 0;
