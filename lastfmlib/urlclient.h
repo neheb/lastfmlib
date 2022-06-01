@@ -30,9 +30,6 @@ public:
     void post(const std::string& url, const std::string& data, std::string& response);
 
 private:
-    void initialize();
-    void cleanup();
-
     std::string m_ProxyServer;
     std::string m_ProxyUserPass;
 };

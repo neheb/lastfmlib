@@ -26,12 +26,20 @@ size_t receiveData(char* data, size_t size, size_t nmemb, string* pBuffer);
 
 UrlClient::UrlClient()
 {
-    initialize();
+#ifdef WIN32
+    CURLcode rc = curl_global_init(CURL_GLOBAL_WIN32 | CURL_GLOBAL_ALL);
+#else
+    CURLcode rc = curl_global_init(CURL_GLOBAL_ALL);
+#endif
+
+    if (CURLE_OK != rc) {
+        throw std::logic_error("Failed to initialize libcurl");
+    }
 }
 
 UrlClient::~UrlClient()
 {
-    cleanup();
+    curl_global_cleanup();
 }
 
 void UrlClient::setProxy(const std::string& server, uint32_t port, const std::string& username, const std::string& password)
@@ -49,24 +57,6 @@ void UrlClient::setProxy(const std::string& server, uint32_t port, const std::st
     } else {
         m_ProxyUserPass.clear();
     }
-}
-
-void UrlClient::initialize()
-{
-#ifdef WIN32
-    CURLcode rc = curl_global_init(CURL_GLOBAL_WIN32 | CURL_GLOBAL_ALL);
-#else
-    CURLcode rc = curl_global_init(CURL_GLOBAL_ALL);
-#endif
-
-    if (CURLE_OK != rc) {
-        throw std::logic_error("Failed to initialize libcurl");
-    }
-}
-
-void UrlClient::cleanup()
-{
-    curl_global_cleanup();
 }
 
 void UrlClient::get(const string& url, string& response)
