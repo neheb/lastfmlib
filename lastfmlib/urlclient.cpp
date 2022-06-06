@@ -59,7 +59,7 @@ void UrlClient::setProxy(const std::string& server, uint32_t port, const std::st
     }
 }
 
-void UrlClient::get(const string& url, string& response)
+void UrlClient::get(const string& url, string& response) const
 {
     CURL* curlHandle = curl_easy_init();
     assert(curlHandle);
