@@ -98,7 +98,7 @@ void LastFmClient::submit(const SubmissionInfoCollection& infoCollection)
     submit(createSubmissionString(infoCollection));
 }
 
-void LastFmClient::submit(const string& postData)
+void LastFmClient::submit(const string& postData) const
 {
     throwOnInvalidSession();
 
@@ -142,7 +142,7 @@ static string generateMD5String(const string& data)
 
 static string generateAutenticationToken(const string& pass, time_t timestamp)
 {
-    return generateMD5String(pass + getPostData(timestamp));
+    return generateMD5String(pass + std::to_string(timestamp));
 }
 
 string LastFmClient::generatePasswordHash(const string& password)

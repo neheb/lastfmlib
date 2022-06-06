@@ -38,8 +38,8 @@ string NowPlayingInfo::getPostData() const
     ss << "&a=" << StringOperations::urlEncode(m_Artist)
        << "&t=" << StringOperations::urlEncode(m_Track)
        << "&b=" << StringOperations::urlEncode(m_Album)
-       << "&l=" << (m_TrackLengthInSecs > 0 ? StringOperations::getPostData(m_TrackLengthInSecs) : "")
-       << "&n=" << (m_TrackNr > 0 ? StringOperations::getPostData(m_TrackNr) : "")
+       << "&l=" << (m_TrackLengthInSecs > 0 ? std::to_string(m_TrackLengthInSecs) : "")
+       << "&n=" << (m_TrackNr > 0 ? std::to_string(m_TrackNr) : "")
        << "&m=" << StringOperations::urlEncode(m_MusicBrainzId);
 
     return ss.str();

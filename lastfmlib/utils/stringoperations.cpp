@@ -55,17 +55,17 @@ string urlEncode(const string& aString)
     return result.str();
 }
 
-vector<string> tokenize(const string& str, const string& delimiter)
+std::vector<std::string> tokenize(std::string_view str, std::string_view delimiter)
 {
     vector<string> tokens;
-    string tempString = str;
+    auto tempString = std::string(str);
     size_t pos = 0;
 
     while ((pos = tempString.find(delimiter)) != string::npos) {
         tokens.push_back(tempString.substr(0, pos));
         tempString.erase(0, pos + delimiter.size());
     }
-    tokens.push_back(tempString);
+    tokens.push_back(std::move(tempString));
 
     return tokens;
 }

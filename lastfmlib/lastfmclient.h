@@ -101,7 +101,7 @@ private:
     std::string createSubmissionString(const SubmissionInfo& info) const;
     std::string createSubmissionString(const SubmissionInfoCollection& infoCollection) const;
     void throwOnInvalidSession() const;
-    void submit(const std::string& postData);
+    void submit(const std::string& postData) const;
 
     UrlClient m_UrlClient;
     std::string m_ClientIdentifier { "lfc" };

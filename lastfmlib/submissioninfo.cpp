@@ -88,9 +88,9 @@ string SubmissionInfo::getPostData(int index) const
        << "&i[" << index << "]=" << m_TimeStarted
        << "&o[" << index << "]=" << sourceToString(m_Source, m_RecommendationKey)
        << "&r[" << index << "]=" << ratingToString(m_Rating)
-       << "&l[" << index << "]=" << (getTrackLength() > 0 ? StringOperations::getPostData(getTrackLength()) : "")
+       << "&l[" << index << "]=" << (getTrackLength() > 0 ? std::to_string(getTrackLength()) : "")
        << "&b[" << index << "]=" << StringOperations::urlEncode(getAlbum())
-       << "&n[" << index << "]=" << (getTrackNr() > 0 ? StringOperations::getPostData(getTrackNr()) : "")
+       << "&n[" << index << "]=" << (getTrackNr() > 0 ? std::to_string(getTrackNr()) : "")
        << "&m[" << index << "]=" << StringOperations::urlEncode(getMusicBrainzId());
 
     return ss.str();

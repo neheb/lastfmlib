@@ -22,7 +22,6 @@
 #include <string>
 #include <vector>
 
-#include <algorithm>
 #include <cwchar>
 #include <stdexcept>
 
@@ -30,17 +29,9 @@ namespace StringOperations {
 void replace(std::string& aString, const std::string& toSearch, const std::string& toReplace);
 void dos2unix(std::string& aString);
 std::string urlEncode(const std::string& aString);
-std::vector<std::string> tokenize(const std::string& str, const std::string& delimiter);
+std::vector<std::string> tokenize(std::string_view str, std::string_view delimiter);
 void wideCharToUtf8(const std::wstring& wideString, std::string& utf8String);
 void utf8ToWideChar(const std::string& utf8String, std::wstring& wideString);
-
-template <typename T>
-inline std::string getPostData(T numeric)
-{
-    std::stringstream ss;
-    ss << numeric;
-    return ss.str();
-}
 } // namespace StringOperations
 
 #endif
