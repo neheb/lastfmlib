@@ -37,10 +37,9 @@ void SubmissionInfoCollection::clear()
 
 string SubmissionInfoCollection::getPostData() const
 {
-    stringstream ss;
-    for (std::vector<SubmissionInfo>::size_type i = 0; i < m_Infos.size(); ++i) {
-        ss << m_Infos[i].getPostData(static_cast<int>(i));
-    }
+    string ret;
+    for (std::deque<SubmissionInfo>::size_type i = 0; i < m_Infos.size(); ++i)
+        ret += m_Infos[i].getPostData(static_cast<int>(i));
 
-    return ss.str();
+    return ret;
 }

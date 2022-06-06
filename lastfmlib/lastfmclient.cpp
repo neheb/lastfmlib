@@ -172,23 +172,17 @@ string LastFmClient::createRequestString(const string& user, const string& pass)
 
 string LastFmClient::createNowPlayingString(const NowPlayingInfo& info) const
 {
-    stringstream nowPlaying;
-    nowPlaying << "&s=" << m_SessionId << info.getPostData();
-    return nowPlaying.str();
+    return "&s=" + m_SessionId + info.getPostData();
 }
 
 string LastFmClient::createSubmissionString(const SubmissionInfo& info) const
 {
-    stringstream submission;
-    submission << "&s=" << m_SessionId << info.getPostData();
-    return submission.str();
+    return "&s=" + m_SessionId + info.getPostData();
 }
 
 string LastFmClient::createSubmissionString(const SubmissionInfoCollection& infoCollection) const
 {
-    stringstream submission;
-    submission << "&s=" << m_SessionId << infoCollection.getPostData();
-    return submission.str();
+    return "&s=" + m_SessionId + infoCollection.getPostData();
 }
 
 void LastFmClient::throwOnInvalidSession() const
