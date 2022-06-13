@@ -16,8 +16,6 @@
 
 #include "submissioninfocollection.h"
 
-#include <sstream>
-
 using namespace std;
 
 static const size_t MAX_QUEUE_SIZE = 50;

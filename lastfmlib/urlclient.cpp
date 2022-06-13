@@ -110,8 +110,7 @@ void UrlClient::post(const string& url, const string& data, string& response)
 
 size_t receiveData(char* data, size_t size, size_t nmemb, string* pBuffer)
 {
-    assert(pBuffer);
-    size_t dataSize = size * nmemb;
+    auto dataSize = size * nmemb;
     pBuffer->append(data, dataSize);
 
     return dataSize;

@@ -25,9 +25,6 @@
 
 #include "lastfmexceptions.h"
 #include "urlclient.h"
-#include <string>
-
-#include <iostream>
 
 class NowPlayingInfo;
 class SubmissionInfo;

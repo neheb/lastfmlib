@@ -18,11 +18,6 @@
 
 #include "utils/log.h"
 
-#include <algorithm>
-#include <csignal>
-#include <iostream>
-#include <stdexcept>
-
 using namespace std;
 
 static const time_t MIN_SECONDS_TO_SUBMIT = 240;
@@ -123,7 +118,7 @@ void LastFmScrobbler::finishedPlaying()
     }
 }
 
-void LastFmScrobbler::setProxy(const std::string& server, uint32_t port, const std::string& username, const std::string& password)
+void LastFmScrobbler::setProxy(const std::string& server, uint32_t port, const std::string& username, const std::string& password) const
 {
     m_pLastFmClient->setProxy(server, port, username, password);
 }
@@ -168,10 +163,10 @@ void LastFmScrobbler::authenticateNow()
         Log::info("Authentication successfull for user: " + m_Username);
         m_HardConnectionFailureCount = 0;
         m_Authenticated = true;
-    } catch (ConnectionError&) {
+    } catch (const ConnectionError&) {
         ++m_HardConnectionFailureCount;
         m_LastConnectionAttempt = time(nullptr);
-    } catch (logic_error& e) {
+    } catch (const logic_error& e) {
         Log::error(e.what());
     }
 }
@@ -249,13 +244,13 @@ void LastFmScrobbler::setNowPlaying()
     try {
         m_pLastFmClient->nowPlaying(m_CurrentTrackInfo);
         Log::info("Now playing info submitted: " + m_CurrentTrackInfo.getArtist() + " - " + m_CurrentTrackInfo.getTrack());
-    } catch (BadSessionError&) {
+    } catch (const BadSessionError&) {
         Log::info("Session has become invalid: starting new handshake");
         authenticateNow();
         setNowPlaying();
-    } catch (ConnectionError&) {
+    } catch (const ConnectionError&) {
         m_Authenticated = false;
-    } catch (logic_error& e) {
+    } catch (const logic_error& e) {
         Log::error(e.what());
     }
 }
@@ -288,13 +283,13 @@ void LastFmScrobbler::submitTrack(const SubmissionInfo& info)
         } else {
             Log::info("Track info buffered: not connected");
         }
-    } catch (BadSessionError&) {
+    } catch (const BadSessionError&) {
         Log::info("Session has become invalid: starting new handshake");
         authenticateNow();
         submitTrack(info);
-    } catch (ConnectionError&) {
+    } catch (const ConnectionError&) {
         m_Authenticated = false;
-    } catch (logic_error& e) {
+    } catch (const logic_error& e) {
         Log::error(e.what());
     }
 

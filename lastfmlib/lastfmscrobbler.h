@@ -24,10 +24,7 @@
 #define LAST_FM_SCROBBLER_H
 
 #include <condition_variable>
-#include <ctime>
-#include <memory>
 #include <mutex>
-#include <string>
 #include <thread>
 
 #include "lastfmclient.h"
@@ -97,7 +94,7 @@ public:
      * \param username the username if the server needs authentication
      * \param password the password if the server needs authentication
      */
-    void setProxy(const std::string& server, uint32_t port, const std::string& username = "", const std::string& password = "");
+    void setProxy(const std::string& server, uint32_t port, const std::string& username = "", const std::string& password = "") const;
 
 protected:
     explicit LastFmScrobbler(bool synchronous);

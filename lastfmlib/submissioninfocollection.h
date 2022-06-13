@@ -19,7 +19,6 @@
 
 #include "submissioninfo.h"
 #include <deque>
-#include <string>
 
 class SubmissionInfoCollection {
 public:
