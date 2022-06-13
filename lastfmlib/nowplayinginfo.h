@@ -24,7 +24,6 @@
 #define NOW_PLAYING_INFO_H
 
 #include <iostream>
-#include <string>
 
 /** The NowPlayingInfo class contains all the necessary information to
  *  set the Now Playing info on Last.Fm. Artist and Track are required
@@ -43,17 +42,17 @@ public:
     [[nodiscard]] std::string getPostData() const;
 
     /** \brief sets the artist of the track */
-    void setArtist(const std::string& artist);
+    void setArtist(std::string artist);
     /** \brief sets the artist of the track (unicode) */
     void setArtist(const std::wstring& artist);
 
     /** \brief sets the title of the track */
-    void setTrack(const std::string& track);
+    void setTrack(std::string track);
     /** \brief sets the title of the track (unicode) */
     void setTrack(const std::wstring& track);
     /** \brief sets the album of the track */
 
-    void setAlbum(const std::string& album);
+    void setAlbum(std::string album);
     /** \brief sets the album of the track (unicode) */
     void setAlbum(const std::wstring& album);
     /** \brief sets the track length (in seconds) */
@@ -62,7 +61,7 @@ public:
     /** \brief sets the track number */
     void setTrackNr(int trackNr);
     /** \brief sets the Music Brainz Id */
-    void setMusicBrainzId(const std::string& musicBrainzId);
+    void setMusicBrainzId(std::string musicBrainzId);
     /** \brief sets the Music Brainz Id (unicode) */
     void setMusicBrainzId(const std::wstring& musicBrainzId);
 

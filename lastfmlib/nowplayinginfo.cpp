@@ -45,9 +45,9 @@ string NowPlayingInfo::getPostData() const
     return ss.str();
 }
 
-void NowPlayingInfo::setArtist(const std::string& artist)
+void NowPlayingInfo::setArtist(std::string artist)
 {
-    m_Artist = artist;
+    m_Artist = std::move(artist);
 }
 
 void NowPlayingInfo::setArtist(const std::wstring& artist)
@@ -55,9 +55,9 @@ void NowPlayingInfo::setArtist(const std::wstring& artist)
     StringOperations::wideCharToUtf8(artist, m_Artist);
 }
 
-void NowPlayingInfo::setTrack(const std::string& track)
+void NowPlayingInfo::setTrack(std::string track)
 {
-    m_Track = track;
+    m_Track = std::move(track);
 }
 
 void NowPlayingInfo::setTrack(const std::wstring& track)
@@ -65,9 +65,9 @@ void NowPlayingInfo::setTrack(const std::wstring& track)
     StringOperations::wideCharToUtf8(track, m_Track);
 }
 
-void NowPlayingInfo::setAlbum(const std::string& album)
+void NowPlayingInfo::setAlbum(std::string album)
 {
-    m_Album = album;
+    m_Album = std::move(album);
 }
 
 void NowPlayingInfo::setAlbum(const std::wstring& album)
@@ -85,9 +85,9 @@ void NowPlayingInfo::setTrackNr(int trackNr)
     m_TrackNr = trackNr;
 }
 
-void NowPlayingInfo::setMusicBrainzId(const std::string& musicBrainzId)
+void NowPlayingInfo::setMusicBrainzId(std::string musicBrainzId)
 {
-    m_MusicBrainzId = musicBrainzId;
+    m_MusicBrainzId = std::move(musicBrainzId);
 }
 
 void NowPlayingInfo::setMusicBrainzId(const std::wstring& musicBrainzId)

@@ -17,13 +17,8 @@
 #ifndef STRING_OPERATIONS_H
 #define STRING_OPERATIONS_H
 
-#include <iostream>
 #include <sstream>
-#include <string>
 #include <vector>
-
-#include <cwchar>
-#include <stdexcept>
 
 namespace StringOperations {
 void replace(std::string& aString, const std::string& toSearch, const std::string& toReplace);

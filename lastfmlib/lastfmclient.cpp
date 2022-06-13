@@ -16,12 +16,7 @@
 
 #include "lastfmclient.h"
 
-#include <ctime>
 #include <iomanip>
-#include <iostream>
-#include <sstream>
-#include <stdexcept>
-#include <vector>
 
 #include "md5/md5.h"
 #include "utils/log.h"
@@ -49,7 +44,7 @@ void LastFmClient::handshake(const string& user, const string& pass)
     string response;
     try {
         m_UrlClient.get(createRequestString(user, pass), response);
-    } catch (logic_error& e) {
+    } catch (const logic_error& e) {
         throw ConnectionError(e.what());
     }
 
@@ -74,7 +69,7 @@ void LastFmClient::nowPlaying(const NowPlayingInfo& info)
     string response;
     try {
         UrlClient::post(m_NowPlayingUrl, createNowPlayingString(info), response);
-    } catch (logic_error& e) {
+    } catch (const logic_error& e) {
         throw ConnectionError(e.what());
     }
 
@@ -106,7 +101,7 @@ void LastFmClient::submit(const string& postData) const
 
     try {
         UrlClient::post(m_SubmissionUrl, postData, response);
-    } catch (logic_error& e) {
+    } catch (const logic_error& e) {
         throw ConnectionError(e.what());
     }
 

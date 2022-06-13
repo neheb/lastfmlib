@@ -23,10 +23,6 @@
 #ifndef SUBMISSION_INFO_H
 #define SUBMISSION_INFO_H
 
-#include <ctime>
-#include <string>
-#include <vector>
-
 #include "lastfmtypes.h"
 #include "nowplayinginfo.h"
 
@@ -55,7 +51,7 @@ public:
      * \param recommendationKey The 5-digit Last.fm recommendation key.
      * Only needs to be supplied when the source is set to Lastfm.
      */
-    void setSource(TrackSource source, const std::string& recommendationKey = "");
+    void setSource(TrackSource source, std::string recommendationKey = "");
     /** Set the rating of the track
      * \param rating the track rating
      */
@@ -69,8 +65,8 @@ public:
 
 private:
     time_t m_TimeStarted;
-    TrackSource m_Source;
-    TrackRating m_Rating;
+    TrackSource m_Source { UserChosen };
+    TrackRating m_Rating { NoRating };
     std::string m_RecommendationKey;
 };
 

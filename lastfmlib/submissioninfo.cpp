@@ -17,10 +17,6 @@
 #include "submissioninfo.h"
 #include "utils/stringoperations.h"
 
-#include <iostream>
-#include <sstream>
-#include <stdexcept>
-
 using namespace std;
 
 namespace {
@@ -55,24 +51,18 @@ std::string ratingToString(TrackRating rating)
 
 SubmissionInfo::SubmissionInfo()
 : m_TimeStarted(0)
-, m_Source(UserChosen)
-, m_Rating(NoRating)
 {
 }
 
 SubmissionInfo::SubmissionInfo(const string& artist, const string& track, time_t timeStarted)
 : NowPlayingInfo(artist, track)
 , m_TimeStarted(timeStarted)
-, m_Source(UserChosen)
-, m_Rating(NoRating)
 {
 }
 
 SubmissionInfo::SubmissionInfo(const wstring& artist, const wstring& track, time_t timeStarted)
 : NowPlayingInfo(artist, track)
 , m_TimeStarted(timeStarted)
-, m_Source(UserChosen)
-, m_Rating(NoRating)
 {
 }
 
@@ -101,10 +91,10 @@ time_t SubmissionInfo::getTimeStarted() const
     return m_TimeStarted;
 }
 
-void SubmissionInfo::setSource(TrackSource source, const std::string& recommendationKey)
+void SubmissionInfo::setSource(TrackSource source, std::string recommendationKey)
 {
     m_Source = source;
-    m_RecommendationKey = recommendationKey;
+    m_RecommendationKey = std::move(recommendationKey);
 }
 
 void SubmissionInfo::setRating(TrackRating rating)
